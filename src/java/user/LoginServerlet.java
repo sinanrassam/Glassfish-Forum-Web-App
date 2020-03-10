@@ -32,17 +32,27 @@ public class LoginServerlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet LoginServerlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet LoginServerlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+
+        // perform some basic validation on parameters
+        boolean validated = true;
+        if (username == null || username.length() < 5) {
+            validated = false;
+        }
+        if (password == null || password.length() < 5) {
+            validated = false;
+        }
+
+        if (validated) {
+            try (PrintWriter out = response.getWriter()) {
+                out.println("Login");
+            }
+        } else {
+            try (PrintWriter out = response.getWriter()) {
+                out.println("DOn't Login");
+            }
         }
     }
 
