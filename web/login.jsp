@@ -13,7 +13,7 @@
     </head>
     <body>
         <h1>Login</h1>
-        <form action="lookup" method="GET">
+        <form action="login" method="POST">
             <p>
                 Username:
                 <input type="text" name="username"/>
