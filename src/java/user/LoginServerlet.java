@@ -7,18 +7,48 @@ package user;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.annotation.Resource;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
 
 /**
  *
  * @author sinan.rassam
  */
-@WebServlet(name = "LoginServerlet", urlPatterns = {"/login"})
+@WebServlet(
+        name = "LoginServerlet",
+        urlPatterns = {"/login"},
+        initParams = {
+            @WebInitParam(name = "dbTable", value = "users")
+            , @WebInitParam(name = "dbUsernameAtt", value = "username")
+            , @WebInitParam(name = "dbPasswordAtt", value = "password")
+        })
 public class LoginServerlet extends HttpServlet {
+
+    private String sqlCommand;
+   /**
+    * using mappedName instead of name due to JNDI naming issue on
+    * some versions of glassfish
+    */
+   @Resource(mappedName = "jdbc/UsersResource")
+   private DataSource dataSource;
+
+    @Override
+    public void init() {
+        // obtain servlet configuration values from annotation or web.xml
+        ServletConfig config = getServletConfig();
+        String dbTable = config.getInitParameter("dbTable");
+        String dbUsernameAtt = config.getInitParameter("dbUsernameAtt");
+        String dbPasswordAtt = config.getInitParameter("dbPasswordAtt");
+        sqlCommand = "SELECT * " + "FROM " + dbTable + " WHERE " + dbUsernameAtt
+                + " IS ? AND " + dbPasswordAtt + " IS ?";
+    }
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -46,9 +76,7 @@ public class LoginServerlet extends HttpServlet {
         }
 
         if (validated) {
-            try (PrintWriter out = response.getWriter()) {
-                out.println("Login");
-            }
+
         } else {
             try (PrintWriter out = response.getWriter()) {
                 out.println("DOn't Login");
