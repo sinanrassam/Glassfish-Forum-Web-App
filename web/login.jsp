@@ -13,5 +13,16 @@
     </head>
     <body>
         <h1>Login</h1>
+        <form action="lookup" method="GET">
+            <p>
+                Username:
+                <input type="text" name="username"/>
+            </p>
+            <p>
+                Password:
+                <input type="password" name="password"/>
+            </p>
+            <input type="submit"/>
+        </form>
     </body>
 </html>
