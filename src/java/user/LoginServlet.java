@@ -7,48 +7,18 @@ package user;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.annotation.Resource;
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.sql.DataSource;
 
 /**
  *
  * @author sinan.rassam
  */
-@WebServlet(
-        name = "LoginServerlet",
-        urlPatterns = {"/login"},
-        initParams = {
-            @WebInitParam(name = "dbTable", value = "users")
-            , @WebInitParam(name = "dbUsernameAtt", value = "username")
-            , @WebInitParam(name = "dbPasswordAtt", value = "password")
-        })
-public class LoginServerlet extends HttpServlet {
-
-    private String sqlCommand;
-   /**
-    * using mappedName instead of name due to JNDI naming issue on
-    * some versions of glassfish
-    */
-   @Resource(mappedName = "jdbc/UsersResource")
-   private DataSource dataSource;
-
-    @Override
-    public void init() {
-        // obtain servlet configuration values from annotation or web.xml
-        ServletConfig config = getServletConfig();
-        String dbTable = config.getInitParameter("dbTable");
-        String dbUsernameAtt = config.getInitParameter("dbUsernameAtt");
-        String dbPasswordAtt = config.getInitParameter("dbPasswordAtt");
-        sqlCommand = "SELECT * " + "FROM " + dbTable + " WHERE " + dbUsernameAtt
-                + " IS ? AND " + dbPasswordAtt + " IS ?";
-    }
+@WebServlet(name = "LoginServlet", urlPatterns = {"/login"})
+public class LoginServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -61,27 +31,7 @@ public class LoginServerlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
 
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-
-        // perform some basic validation on parameters
-        boolean validated = true;
-        if (username == null || username.length() < 5) {
-            validated = false;
-        }
-        if (password == null || password.length() < 5) {
-            validated = false;
-        }
-
-        if (validated) {
-
-        } else {
-            try (PrintWriter out = response.getWriter()) {
-                out.println("DOn't Login");
-            }
-        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
