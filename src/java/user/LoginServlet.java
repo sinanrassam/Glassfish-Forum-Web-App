@@ -7,6 +7,7 @@ package user;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,6 +20,12 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "LoginServlet", urlPatterns = {"/login"})
 public class LoginServlet extends HttpServlet {
+
+    private Logger logger;
+
+    public LoginServlet() {
+        logger = Logger.getLogger(getClass().getName());
+    }
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
