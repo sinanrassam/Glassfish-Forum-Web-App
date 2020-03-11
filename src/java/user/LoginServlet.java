@@ -40,6 +40,24 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
         logger.info("Processing Request");
 
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+
+        // perform some basic validation on parameters
+        boolean validated = true;
+        if (username == null || username.length() < 5) {
+            validated = false;
+        }
+        if (password == null || password.length() < 5) {
+            validated = false;
+        }
+
+        if (validated) {
+            logger.info("Valdiated");
+        } else {
+            logger.info("Validation Failed");
+        }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
