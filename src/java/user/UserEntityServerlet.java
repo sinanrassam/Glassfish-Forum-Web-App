@@ -63,11 +63,14 @@ public class UserEntityServerlet extends HttpServlet {
             if (entityManager != null) {
                 String jpqlCommand
                         = "SELECT u FROM User u WHERE u.username = :username AND u.password = :password";
-                Query query
-                        = entityManager.createQuery(jpqlCommand);
+                Query query = entityManager.createQuery(jpqlCommand);
                 query.setParameter("username", username);
                 query.setParameter("password", password);
-                userList = query.getResultList();
+                if (query.getResultList().size() == 1) {
+                    logger.info("OK");
+                } else {
+                    logger.info("Not OK");
+                }
             }
         } else {
             logger.info("Validation Failed");
