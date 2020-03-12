@@ -60,7 +60,6 @@ public class UserEntityServerlet extends HttpServlet {
 
         if (validated) {
             logger.info("Valdiated");
-            List<User> userList = null;
             if (entityManager != null) {
                 String jpqlCommand
                         = "SELECT u FROM User u WHERE u.username = :username AND u.password = :password";
@@ -69,15 +68,22 @@ public class UserEntityServerlet extends HttpServlet {
                 query.setParameter("password", password);
                 if (query.getResultList().size() == 1) {
                     logger.info("OK");
-                } else {
+                    User user = (User) query.getResultList().get(0);
+                    request.setAttribute("User", user);
                     RequestDispatcher dispatcher = getServletContext().
-                            getRequestDispatcher("/login.jsp?error=Username or Password are incorrect!");
+                            getRequestDispatcher("/confirmation.jsp");
+                    dispatcher.forward(request, response);
+                } else {
+                    request.setAttribute("error", "Username or Password are incorrect!");
+                    RequestDispatcher dispatcher = getServletContext().
+                            getRequestDispatcher("/login.jsp");
                     dispatcher.forward(request, response);
                 }
             }
         } else {
+                    request.setAttribute("error", "Validation Failed!");
             RequestDispatcher dispatcher = getServletContext().
-                    getRequestDispatcher("/login.jsp?error=Validation Failed");
+                    getRequestDispatcher("/login.jsp");
             dispatcher.forward(request, response);
         }
 
