@@ -47,6 +47,7 @@
                     <td> <c:out value="${user.username}"/></td>
                 </tr>
             </table>
+            <a href='<%= response.encodeURL(request.getContextPath())%>/logout'>Logout>></a>
         </c:if>
     </body>
 </html>
