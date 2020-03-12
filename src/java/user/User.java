@@ -26,23 +26,22 @@ public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @Column(name = "firstName")
-    private String firstName;
-    @Id
-    @Column(name = "lastName")
-    private String lastName;
-    @Id
     @Column(name = "email")
     private String email;
+    @Id
+    @Column(name = "username")
+    private String username;
+    @Column(name = "firstName")
+    private String firstName;
+    @Column(name = "lastName")
+    private String lastName;
     @Column(name = "dob")
-    private Date dob;
     @Temporal(TemporalType.DATE)
+    private Date dob;
     @Column(name = "age")
     private int age;
     @Column(name = "gender")
     private String gender;
-    @Column(name = "username")
-    private String username;
 
     public User() {
     }

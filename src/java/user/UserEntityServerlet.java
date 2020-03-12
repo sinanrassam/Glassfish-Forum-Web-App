@@ -7,7 +7,11 @@ package user;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.logging.Logger;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -22,6 +26,8 @@ import javax.servlet.http.HttpServletResponse;
 public class UserEntityServerlet extends HttpServlet {
 
     private Logger logger;
+    @PersistenceContext
+    private EntityManager entityManager;
 
     public UserEntityServerlet() {
         logger = Logger.getLogger(getClass().getName());
@@ -54,6 +60,15 @@ public class UserEntityServerlet extends HttpServlet {
 
         if (validated) {
             logger.info("Valdiated");
+            List<User> userList = null;
+            if (entityManager != null) {
+                String jpqlCommand
+                        = "SELECT u FROM users u WHERE u.username is :username";
+                Query query
+                        = entityManager.createQuery(jpqlCommand);
+                query.setParameter("username", username);
+                userList = query.getResultList();
+            }
         } else {
             logger.info("Validation Failed");
         }

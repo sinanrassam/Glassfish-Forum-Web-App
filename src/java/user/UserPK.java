@@ -10,27 +10,18 @@ import java.util.Date;
 public class UserPK implements Serializable {
     // note that fields in public key class must be public
 
-    public String firstName;
-    public String lastName;
     public String email;
-    public Date dob;
-    public int age;
-    public String gender;
     public String username;
 
     public UserPK() {
     }
 
-    public UserPK(String firstName, String lastName, String email, Date dob, int age, String gender, String username) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public UserPK(String email, String username) {
         this.email = email;
-        this.dob = dob;
-        this.age = age;
-        this.gender = gender;
         this.username = username;
     }
 
+    @Override
     public boolean equals(Object obj) {
         if (obj == null || !(obj instanceof UserPK)) {
             return false;
@@ -44,11 +35,12 @@ public class UserPK implements Serializable {
         }
     }
 
+    @Override
     public int hashCode() {
-        if (username == null) {
+        if (username == null || email == null) {
             return 0;
         } else {
-            return username.hashCode();
+            return username.hashCode() ^ email.hashCode();
         }
     }
 }
