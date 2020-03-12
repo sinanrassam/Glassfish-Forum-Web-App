@@ -54,10 +54,10 @@ public class UserEntityServerlet extends HttpServlet {
 
             // perform some basic validation on parameters
             boolean validated = true;
-            if (username == null || username.length() < 5) {
+            if (username == null) {
                 validated = false;
             }
-            if (password == null || password.length() < 5) {
+            if (password == null) {
                 validated = false;
             }
 
