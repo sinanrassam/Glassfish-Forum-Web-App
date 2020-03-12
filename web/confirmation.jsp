@@ -16,13 +16,37 @@
         <h1>Welcome </h1>
 
         <c:if test="${not empty sessionScope.user}">
-            <c:out value="Customer bean found with name"/>
-            <c:out value="${user.firstName}"/>
-            <c:out value="${user.lastName}"/>
-            <c:out value="and born on"/>
-            <c:out value="${user.dob}"/>
-            <c:out value="with gender"/>
-            <c:out value="${user.gender}"/>
+            <table style="width:25%">
+                <tr>
+                    <th>First Name:</th>
+                    <td> <c:out value="${user.firstName}"/></td>
+                    <th>
+                </tr>
+                <tr>
+                    <th>Last Name:</th>
+                    <td> <c:out value="${user.lastName}"/></td>
+                </tr>
+                <tr>
+                    <th>Email:</th>
+                    <td> <c:out value="${user.email}"/></td>
+                </tr>
+                <tr>
+                    <th>Date of Birth:</th>
+                    <td> <c:out value="${user.dob}"/></td>
+                </tr>
+                <tr>
+                    <th>Age:</th>
+                    <td> <c:out value="${user.age}"/></td>
+                </tr>
+                <tr>
+                    <th>Gender:</th>
+                    <td> <c:out value="${user.gender}"/></td>
+                </tr>
+                <tr>
+                    <th>Username:</th>
+                    <td> <c:out value="${user.username}"/></td>
+                </tr>
+            </table>
         </c:if>
     </body>
 </html>
