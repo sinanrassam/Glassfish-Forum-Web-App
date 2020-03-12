@@ -22,7 +22,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author sinan.rassam
  */
-@WebServlet(name = "UserEntityServerlet", urlPatterns = {"/login"})
+@WebServlet(name = "UserEntityServerlet", urlPatterns = {"/login", "/logout"})
 public class UserEntityServerlet extends HttpServlet {
 
     private Logger logger;
@@ -44,55 +44,60 @@ public class UserEntityServerlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession(true);
-        User user = (User) session.getAttribute("user");
-        if (user == null) {
-            logger.info("Processing Request");
+        String servletPath = request.getServletPath();
+        if (servletPath.equals("/login")) {
+            logger.info("Login");
+            HttpSession session = request.getSession(true);
+            User user = (User) session.getAttribute("user");
+            if (user == null) {
+                logger.info("Processing Request");
 
-            String username = request.getParameter("username");
-            String password = request.getParameter("password");
+                String username = request.getParameter("username");
+                String password = request.getParameter("password");
 
-            // perform some basic validation on parameters
-            boolean validated = true;
-            if (username == null) {
-                validated = false;
-            }
-            if (password == null) {
-                validated = false;
-            }
+                // perform some basic validation on parameters
+                boolean validated = true;
+                if (username == null) {
+                    validated = false;
+                }
+                if (password == null) {
+                    validated = false;
+                }
 
-            if (validated) {
-                logger.info("Valdiated");
-                if (entityManager != null) {
-                    String jpqlCommand
-                            = "SELECT u FROM User u WHERE u.username = :username AND u.password = :password";
-                    Query query = entityManager.createQuery(jpqlCommand);
-                    query.setParameter("username", username);
-                    query.setParameter("password", password);
-                    if (query.getResultList().size() == 1) {
-                        logger.info("OK");
-                        user = (User) query.getResultList().get(0);
-                        session.setAttribute("user", user);
-                        RequestDispatcher dispatcher = getServletContext().
-                                getRequestDispatcher("/confirmation.jsp");
-                        dispatcher.forward(request, response);
-                    } else {
-                        request.setAttribute("error", "Username or Password are incorrect!");
-                        RequestDispatcher dispatcher = getServletContext().
-                                getRequestDispatcher("/login.jsp");
-                        dispatcher.forward(request, response);
+                if (validated) {
+                    logger.info("Valdiated");
+                    if (entityManager != null) {
+                        String jpqlCommand
+                                = "SELECT u FROM User u WHERE u.username = :username AND u.password = :password";
+                        Query query = entityManager.createQuery(jpqlCommand);
+                        query.setParameter("username", username);
+                        query.setParameter("password", password);
+                        if (query.getResultList().size() == 1) {
+                            logger.info("OK");
+                            user = (User) query.getResultList().get(0);
+                            session.setAttribute("user", user);
+                            RequestDispatcher dispatcher = getServletContext().
+                                    getRequestDispatcher("/confirmation.jsp");
+                            dispatcher.forward(request, response);
+                        } else {
+                            request.setAttribute("error", "Username or Password are incorrect!");
+                            RequestDispatcher dispatcher = getServletContext().
+                                    getRequestDispatcher("/login.jsp");
+                            dispatcher.forward(request, response);
+                        }
                     }
+                } else {
+                    request.setAttribute("error", "Validation Failed!");
+                    RequestDispatcher dispatcher = getServletContext().
+                            getRequestDispatcher("/login.jsp");
+                    dispatcher.forward(request, response);
                 }
             } else {
-                request.setAttribute("error", "Validation Failed!");
-                RequestDispatcher dispatcher = getServletContext().
-                        getRequestDispatcher("/login.jsp");
-                dispatcher.forward(request, response);
+                logger.info("Doesn't need to login");
             }
-        } else {
-            logger.info("Doesn't need to login");
+        } else if (servletPath.equals("/logout")) {
+            logger.info("Logout");
         }
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
