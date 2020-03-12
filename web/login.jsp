@@ -18,18 +18,18 @@
         <c:choose>
             <c:when test="${not empty param}">
                 <p><strong>Error:</strong> <%= request.getParameter("error")%></p>
-                </c:when>
-            </c:choose>
-    <form action="login" method="POST">
-        <p>
-            Username:
-            <input type="text" name="username"/>
-        </p>
-        <p>
-            Password:
-            <input type="password" name="password"/>
-        </p>
-        <input type="submit"/>
-    </form>
-</body>
+            </c:when>
+        </c:choose>
+        <form action="login" method="POST">
+            <p>
+                Username:
+                <input type="text" name="username"/>
+            </p>
+            <p>
+                Password:
+                <input type="password" name="password"/>
+            </p>
+            <input type="submit"/>
+        </form>
+    </body>
 </html>
