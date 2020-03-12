@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -69,11 +70,15 @@ public class UserEntityServerlet extends HttpServlet {
                 if (query.getResultList().size() == 1) {
                     logger.info("OK");
                 } else {
-                    logger.info("Not OK");
+                    RequestDispatcher dispatcher = getServletContext().
+                            getRequestDispatcher("/login.jsp?error=Username or Password are incorrect!");
+                    dispatcher.forward(request, response);
                 }
             }
         } else {
-            logger.info("Validation Failed");
+            RequestDispatcher dispatcher = getServletContext().
+                    getRequestDispatcher("/login.jsp?error=Validation Failed");
+            dispatcher.forward(request, response);
         }
 
     }
