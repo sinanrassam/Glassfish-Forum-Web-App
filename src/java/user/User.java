@@ -42,6 +42,8 @@ public class User implements Serializable {
     private int age;
     @Column(name = "gender")
     private String gender;
+    @Column(name = "password")
+    private String password;
 
     public User() {
     }

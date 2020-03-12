@@ -6,7 +6,6 @@
 package user;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
@@ -63,10 +62,11 @@ public class UserEntityServerlet extends HttpServlet {
             List<User> userList = null;
             if (entityManager != null) {
                 String jpqlCommand
-                        = "SELECT u FROM users u WHERE u.username is :username";
+                        = "SELECT u FROM User u WHERE u.username = :username AND u.password = :password";
                 Query query
                         = entityManager.createQuery(jpqlCommand);
                 query.setParameter("username", username);
+                query.setParameter("password", password);
                 userList = query.getResultList();
             }
         } else {
