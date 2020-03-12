@@ -15,14 +15,14 @@
     <body>
         <h1>Welcome </h1>
 
-    <c:if test="${not empty requestScope.User}">
-        <c:out value="Customer bean found with name"/>
-        <c:out value="${User.firstName}"/>
-        <c:out value="${User.lastName}"/>
-        <c:out value="and born on"/>
-        <c:out value="${User.dob}"/>
-        <c:out value="with gender"/>
-        <c:out value="${User.gender}"/>
-    </c:if>
-</body>
+        <c:if test="${not empty sessionScope.user}">
+            <c:out value="Customer bean found with name"/>
+            <c:out value="${user.firstName}"/>
+            <c:out value="${user.lastName}"/>
+            <c:out value="and born on"/>
+            <c:out value="${user.dob}"/>
+            <c:out value="with gender"/>
+            <c:out value="${user.gender}"/>
+        </c:if>
+    </body>
 </html>
