@@ -18,12 +18,12 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author sinan.rassam
  */
-@WebServlet(name = "LoginServlet", urlPatterns = {"/login"})
-public class LoginServlet extends HttpServlet {
+@WebServlet(name = "UserEntityServerlet", urlPatterns = {"/login"})
+public class UserEntityServerlet extends HttpServlet {
 
     private Logger logger;
 
-    public LoginServlet() {
+    public UserEntityServerlet() {
         logger = Logger.getLogger(getClass().getName());
     }
 
