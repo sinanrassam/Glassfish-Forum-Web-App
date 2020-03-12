@@ -45,10 +45,10 @@ public class UserEntityServerlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String servletPath = request.getServletPath();
+        HttpSession session = request.getSession(true);
+        User user = (User) session.getAttribute("user");
         if (servletPath.equals("/login")) {
             logger.info("Login");
-            HttpSession session = request.getSession(true);
-            User user = (User) session.getAttribute("user");
             if (user == null) {
                 logger.info("Processing Request");
 
@@ -97,6 +97,8 @@ public class UserEntityServerlet extends HttpServlet {
             }
         } else if (servletPath.equals("/logout")) {
             logger.info("Logout");
+            session.invalidate();
+            response.sendRedirect("login.jsp");
         }
     }
 
