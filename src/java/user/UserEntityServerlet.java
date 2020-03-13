@@ -80,14 +80,14 @@ public class UserEntityServerlet extends HttpServlet {
                                     getRequestDispatcher("/confirmation.jsp");
                             dispatcher.forward(request, response);
                         } else {
-                            request.setAttribute("error", "Username or Password are incorrect!");
+                            request.getSession().setAttribute("error", "Username or Password are incorrect!");
                             RequestDispatcher dispatcher = getServletContext().
                                     getRequestDispatcher("/login.jsp");
                             dispatcher.forward(request, response);
                         }
                     }
                 } else {
-                    request.setAttribute("error", "Validation Failed!");
+                    request.getSession().setAttribute("error", "Validation Failed!");
                     RequestDispatcher dispatcher = getServletContext().
                             getRequestDispatcher("/login.jsp");
                     dispatcher.forward(request, response);

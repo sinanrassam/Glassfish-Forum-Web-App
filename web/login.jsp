@@ -15,11 +15,10 @@
     </head>
     <body>
         <h1>Login</h1>
-        <c:choose>
-            <c:when test="${not empty param}">
-                <p><strong>Error:</strong> <%= request.getParameter("error")%></p>
-            </c:when>
-        </c:choose>
+        <c:if test="${not empty sessionScope.error}">
+            <p><strong>Error:</strong> <%= request.getSession().getAttribute("error") %></p>
+            <% request.getSession().removeAttribute("error"); %>
+        </c:if>
         <form action="login" method="POST">
             <p>
                 Username:
