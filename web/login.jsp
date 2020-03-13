@@ -22,7 +22,7 @@
         <form action="login" method="POST">
             <p>
                 Username:
-                <input type="text" name="username"/>
+                <input type="text" name="username" value="asdasd"/>
             </p>
             <p>
                 Password:

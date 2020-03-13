@@ -56,13 +56,7 @@ public class UserEntityServerlet extends HttpServlet {
                 String password = request.getParameter("password");
 
                 // perform some basic validation on parameters
-                boolean validated = true;
-                if (username == null) {
-                    validated = false;
-                }
-                if (password == null) {
-                    validated = false;
-                }
+                boolean validated = (isValid(username)) && (isValid(password));
 
                 if (validated) {
                     logger.info("Valdiated");
@@ -92,14 +86,16 @@ public class UserEntityServerlet extends HttpServlet {
                             getRequestDispatcher("/login.jsp");
                     dispatcher.forward(request, response);
                 }
-            } else {
-                logger.info("Doesn't need to login");
             }
         } else if (servletPath.equals("/logout")) {
             logger.info("Logout");
             session.invalidate();
             response.sendRedirect("login.jsp");
         }
+    }
+    
+    private boolean isValid(String str) {
+        return (str != null && !str.isEmpty());
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
