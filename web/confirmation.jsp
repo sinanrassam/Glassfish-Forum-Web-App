@@ -13,6 +13,10 @@
         <title>Welcome </title>
     </head>
     <body>
+        <c:if test="${not empty sessionScope.error}">
+            <p><strong>Error:</strong> <%= request.getSession().getAttribute("error")%></p>
+            <% request.getSession().removeAttribute("error");%>
+        </c:if>
         <c:choose>
             <c:when test="${not empty sessionScope.user}">
                 <h1>Welcome <c:out value="${user.firstName}"/></h1>

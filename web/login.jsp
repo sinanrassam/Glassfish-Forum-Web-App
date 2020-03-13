@@ -7,6 +7,15 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
+<c:if test="${not empty sessionScope.user}">
+    <%
+        request.getSession().setAttribute("error", "You are already logged in");
+        RequestDispatcher dispatcher = getServletContext().
+                getRequestDispatcher("/confirmation.jsp");
+        dispatcher.forward(request, response);
+    %>
+</c:if>
 <!DOCTYPE html>
 <html>
     <head>
@@ -16,8 +25,8 @@
     <body>
         <h1>Login</h1>
         <c:if test="${not empty sessionScope.error}">
-            <p><strong>Error:</strong> <%= request.getSession().getAttribute("error") %></p>
-            <% request.getSession().removeAttribute("error"); %>
+            <p><strong>Error:</strong> <%= request.getSession().getAttribute("error")%></p>
+            <% request.getSession().removeAttribute("error");%>
         </c:if>
         <form action="login" method="POST">
             <p>
