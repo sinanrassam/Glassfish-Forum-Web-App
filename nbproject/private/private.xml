@@ -3,8 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/rober/Documents/GitHub/Glassfish-Multi-Tier-System/src/Java/User/User.java</file>
             <file>file:/C:/Users/rober/Documents/GitHub/Glassfish-Multi-Tier-System/src/Java/User/CreateAccountServlet.java</file>
+            <file>file:/C:/Users/rober/Documents/GitHub/Glassfish-Multi-Tier-System/web/CreateNewUser.jsp</file>
             <file>file:/C:/Users/rober/Documents/GitHub/Glassfish-Multi-Tier-System/web/index.jsp</file>
+            <file>file:/C:/Users/rober/Documents/GitHub/Glassfish-Multi-Tier-System/src/conf/persistence.xml</file>
         </group>
     </open-files>
 </project-private>

@@ -43,7 +43,7 @@
                 Password:
                 <input type="text" name="password" value="steven"/>
             </p>
-            <input type="submit" value="Search"/>
+            <input type="submit" value="Create User"/>
         </form>
         <br/>
         <a href='<%= response.encodeURL(request.getContextPath())%>'>
