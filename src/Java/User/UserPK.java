@@ -2,7 +2,7 @@
  * Class which represents a composite public key for the Pet entity
  * @see PetEntityServlet.java
  */
-package user;
+package User;
 
 import java.io.Serializable;
 import java.util.Date;
