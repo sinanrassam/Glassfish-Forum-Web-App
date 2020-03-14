@@ -13,35 +13,53 @@
     </head>
     <body>
         <h1>Please Enter User Information</h1>
+        <h2>Please Enter User Information</h2>
         <form method="post" action="CreateAccountServlet">
             <p>
                 First Name:
-                <input type="text" name="firstName" value="steven"/>
+                <input type="text" name="firstName"/>
             </p>
             <p>
                 Last Name:
-                <input type="text" name="lastName" value="steven"/>
+                <input type="text" name="lastName"/>
             </p>
             <p>
-                Date of Birth:
-                <input type="text" name="dob"/>
+                Day:
+                <input type="text" name="day"/>
+                Month:
+                    <select name="month">
+                    <option value="1">January</option>
+                    <option value="2">February</option>
+                    <option value="3">March</option>
+                    <option value="4">April</option>
+                    <option value="5">May</option>
+                    <option value="6">June</option>
+                    <option value="7">July</option>
+                    <option value="8">August</option>
+                    <option value="9">September</option>
+                    <option value="10">October</option>
+                    <option value="11">November</option>
+                    <option value="12">December</option>
+                    </select>
+                Year:
+                <input type="text" name="year"/>
             </p>
             <p>
                 Email Address:
-                <input type="text" name="email" value="steven@steve.com"/>
+                <input type="text" name="email"/>
             </p>
             <p>
                 Gender:
-                <input type="radio" name="gender" value="male"/>Male
-                <input type="radio" name="gender" value="female"/>Female
+                <input type="radio" name="gender"/>Male
+                <input type="radio" name="gender"/>Female
             </p>
             <p>
                 Username:
-                <input type="text" name="username" value="steven"/>
+                <input type="text" name="username"/>
             </p>
             <p>
                 Password:
-                <input type="text" name="password" value="steven"/>
+                <input type="text" name="password"/>
             </p>
             <input type="submit" value="Create User"/>
         </form>
