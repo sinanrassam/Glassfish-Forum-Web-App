@@ -61,7 +61,7 @@ public class UserEntityServerlet extends HttpServlet {
         User user = (User) session.getAttribute("user");
 
         if (servletPath.equals("/register")) {
-            logger.info("Testing");
+            logger.info("Registeration");
 
             //Obtain data given from the server
             String username = request.getParameter("username");
@@ -108,7 +108,7 @@ public class UserEntityServerlet extends HttpServlet {
                         entityManager.persist(user);
                         userTransaction.commit();
                     } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-                        Logger.getLogger(CreateAccountServlet.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(UserEntityServerlet.class.getName()).log(Level.SEVERE, null, ex);
                     }
 
                     request.getSession().setAttribute("message", "User Account Creation Was Sucessfull!");
