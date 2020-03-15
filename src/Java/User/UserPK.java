@@ -5,7 +5,6 @@
 package User;
 
 import java.io.Serializable;
-import java.util.Date;
 
 public class UserPK implements Serializable {
     // note that fields in public key class must be public
