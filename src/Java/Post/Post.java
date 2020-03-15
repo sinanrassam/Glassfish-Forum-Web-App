@@ -5,7 +5,6 @@
  */
 package Post;
 
-import User.UserPK;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,7 +20,7 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "posts")
-@IdClass(value = UserPK.class)
+@IdClass(value = PostPK.class)
 public class Post {
 
     private static final long serialVersionUID = 1L;
