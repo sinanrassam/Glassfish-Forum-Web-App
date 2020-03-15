@@ -59,6 +59,21 @@ public class PostEntityServerlet extends HttpServlet {
             dispatcher.forward(request, response);
         } else {
             if (servletPath.equals("/createPost")) {
+                String title = request.getParameter("title");
+                String description = request.getParameter("description");
+
+                // perform some basic validation on parameters
+                Object[] data = {title, description};
+                boolean validated = Utils.Utils.isValid(data);
+
+                if (validated) {
+
+                } else {
+                    request.getSession().setAttribute("error", "Validation Failed!");
+                    RequestDispatcher dispatcher = getServletContext().
+                            getRequestDispatcher("/createPost.jsp");
+                    dispatcher.forward(request, response);
+                }
             }
         }
     }
