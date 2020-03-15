@@ -5,7 +5,6 @@
  */
 package Post;
 
-import User.UserPK;
 import java.io.Serializable;
 
 /**
