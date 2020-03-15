@@ -33,10 +33,6 @@ public class CreateAccountServlet extends HttpServlet {
 
     @PersistenceContext
     private EntityManager entityManager;
-
-    
-    @PersistenceUnit(unitName="users")
-    private EntityManagerFactory entityManagerFactory;
     
     @Resource 
     private UserTransaction userTransaction;
