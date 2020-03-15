@@ -28,10 +28,14 @@
             <p><strong>Error:</strong> <%= request.getSession().getAttribute("error")%></p>
             <% request.getSession().removeAttribute("error");%>
         </c:if>
+            <c:if test="${not empty sessionScope.message}">
+            <p><strong>Error:</strong> <%= request.getSession().getAttribute("message")%></p>
+            <% request.getSession().removeAttribute("message");%>
+        </c:if>
         <form action="login" method="POST">
             <p>
                 Username:
-                <input type="text" name="username" value="asdasd"/>
+                <input type="text" name="username"/>
             </p>
             <p>
                 Password:

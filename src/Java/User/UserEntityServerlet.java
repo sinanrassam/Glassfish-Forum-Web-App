@@ -3,10 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package user;
+package User;
 
 import java.io.IOException;
+import java.util.Date;
+import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -17,17 +20,25 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.transaction.HeuristicMixedException;
+import javax.transaction.HeuristicRollbackException;
+import javax.transaction.NotSupportedException;
+import javax.transaction.RollbackException;
+import javax.transaction.SystemException;
+import javax.transaction.UserTransaction;
 
 /**
  *
  * @author sinan.rassam
  */
-@WebServlet(name = "UserEntityServerlet", urlPatterns = {"/login", "/logout"})
+@WebServlet(name = "UserEntityServerlet", urlPatterns = {"/login", "/logout", "/register"})
 public class UserEntityServerlet extends HttpServlet {
 
     private Logger logger;
     @PersistenceContext
     private EntityManager entityManager;
+    @Resource
+    private UserTransaction userTransaction;
 
     public UserEntityServerlet() {
         logger = Logger.getLogger(getClass().getName());
@@ -44,10 +55,79 @@ public class UserEntityServerlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
         String servletPath = request.getServletPath();
         HttpSession session = request.getSession(true);
         User user = (User) session.getAttribute("user");
-        if (servletPath.equals("/login")) {
+
+        if (servletPath.equals("/register")) {
+            logger.info("Registeration");
+
+            //Obtain data given from the server
+            String username = request.getParameter("username");
+            String password = request.getParameter("password");
+            String firstName = request.getParameter("firstName");
+            String lastName = request.getParameter("lastName");
+            String email = request.getParameter("email");
+            String gender = request.getParameter("gender");
+
+            String dayString = request.getParameter("day");
+            String monthString = request.getParameter("month");
+            String yearString = request.getParameter("year");
+
+            // perform some basic validation on parameters
+            Object[] data = {username, password, firstName, lastName, email, gender, dayString, monthString, yearString};
+            boolean validated = isValid(data);
+
+            if (validated) {
+                int day = Integer.parseInt(dayString);
+                int month = Integer.parseInt(monthString);
+                int year = Integer.parseInt(yearString);
+                Date dob = new Date(year, month, day);
+
+                UserPK pk = new UserPK(email, username);
+                User validateUser = entityManager.find(User.class, pk);
+
+                if (validateUser == null) {
+                    logger.info("User not found");
+                    logger.info("Creating new user: " + username);
+
+                    user = new User();
+
+                    user.setFirstName(firstName);
+                    user.setLastName(lastName);
+                    user.setEmail(email);
+                    user.setDob(dob);
+                    user.setAge(20);
+                    user.setGender(gender);
+                    user.setUsername(username);
+                    user.setPassword(password);
+
+                    try {
+                        userTransaction.begin();
+                        entityManager.persist(user);
+                        userTransaction.commit();
+                    } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
+                        Logger.getLogger(UserEntityServerlet.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                    request.getSession().setAttribute("message", "User Account Creation Was Sucessfull!");
+                    RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/login.jsp");
+                    dispatcher.forward(request, response);
+                } else {
+                    request.getSession().setAttribute("error", "User with that email/username already exist");
+                    RequestDispatcher dispatcher = getServletContext().
+                            getRequestDispatcher("/register.jsp");
+                    dispatcher.forward(request, response);
+                }
+            } else {
+                request.getSession().setAttribute("error", "Validation Failed!");
+                RequestDispatcher dispatcher = getServletContext().
+                        getRequestDispatcher("/register.jsp");
+                dispatcher.forward(request, response);
+            }
+
+        } else if (servletPath.equals("/login")) {
             logger.info("Login");
             if (user == null) {
                 logger.info("Processing Request");
@@ -56,7 +136,8 @@ public class UserEntityServerlet extends HttpServlet {
                 String password = request.getParameter("password");
 
                 // perform some basic validation on parameters
-                boolean validated = (isValid(username)) && (isValid(password));
+                Object[] data = {username, password};
+                boolean validated = isValid(data);
 
                 if (validated) {
                     logger.info("Valdiated");
@@ -93,9 +174,22 @@ public class UserEntityServerlet extends HttpServlet {
             response.sendRedirect("login.jsp");
         }
     }
-    
-    private boolean isValid(String str) {
-        return (str != null && !str.isEmpty());
+
+    private boolean isValid(Object objs[]) {
+        boolean isValid = true;
+        for (int i = 0; i < objs.length; i++) {
+            if (objs[i] != null) {
+                if (objs[i] instanceof String) {
+                    isValid = !(((String) objs[i]).isEmpty());
+                    if (!isValid) {
+                        return isValid;
+                    }
+                }
+            } else {
+                return false;
+            }
+        }
+        return isValid;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

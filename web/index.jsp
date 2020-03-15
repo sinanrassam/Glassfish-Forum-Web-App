@@ -16,31 +16,22 @@
     </head>
     <body>
         <h1>Assignment 1 - Multi-Tier System</h1>
+        <c:if test="${not empty sessionScope.error}">
+            <p><strong>Error:</strong> <%= request.getSession().getAttribute("error")%></p>
+            <% request.getSession().removeAttribute("error");%>
+        </c:if>
+        <c:if test="${not empty sessionScope.message}">
+            <p><strong>Error:</strong> <%= request.getSession().getAttribute("message")%></p>
+            <% request.getSession().removeAttribute("message");%>
+        </c:if>
         <br/>
         <jsp:useBean id="today" class="java.util.Date"/>
         <c:out value="Todays date is"/>
         <fmt:formatDate value="${today}" type="date" dateStyle="full"/>
         <br/>
-        <c:choose>
-            <c:when test="${not empty param}">
-                <c:out value="${fn:length(param)} request parameters:"/>
-                <br/>
-                <ul>
-                    <c:forEach items="${param}" var="parameter">
-                        <li>
-                            <c:out value="name:${parameter.key} "/>
-                            <c:out value="value:${parameter.value}"/>
-                        </li>
-                    </c:forEach>
-                </ul>
-            </c:when>
-            <c:otherwise>
-                <c:out value="No request parameters"/>
-                <br/>
-            </c:otherwise>
-        </c:choose>
         <br/>
-        <a href='<%= response.encodeURL("CreateNewUser.jsp")%>'>
+
+        <a href='<%= response.encodeURL("register.jsp")%>'>
             Create New User
         </a>
         <br>
