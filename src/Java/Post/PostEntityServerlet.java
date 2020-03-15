@@ -5,10 +5,13 @@
  */
 package Post;
 
+import javax.servlet.annotation.WebServlet;
+
 /**
  *
  * @author sinan.rassam
  */
-public class PostEntitiyServerlet {
+@WebServlet(name = "PostEntityServerlet", urlPatterns = {"/createPost"})
+public class PostEntityServerlet {
     
 }
