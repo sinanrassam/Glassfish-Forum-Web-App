@@ -14,7 +14,7 @@
     <body>
         <h1>Please Enter User Information</h1>
         <h2>Please Enter User Information</h2>
-        <form method="post" action="CreateAccountServlet">
+        <form method="post" action="register">
             <p>
                 First Name:
                 <input type="text" name="firstName"/>
