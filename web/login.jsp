@@ -31,7 +31,7 @@
         <form action="login" method="POST">
             <p>
                 Username:
-                <input type="text" name="username" value="asdasd"/>
+                <input type="text" name="username"/>
             </p>
             <p>
                 Password:
