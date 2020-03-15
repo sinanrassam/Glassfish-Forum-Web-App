@@ -77,7 +77,7 @@ public class UserEntityServerlet extends HttpServlet {
 
             // perform some basic validation on parameters
             Object[] data = {username, password, firstName, lastName, email, gender, dayString, monthString, yearString};
-            boolean validated = isValid(data);
+            boolean validated = Utils.Utils.isValid(data);
 
             if (validated) {
                 int day = Integer.parseInt(dayString);
@@ -137,7 +137,7 @@ public class UserEntityServerlet extends HttpServlet {
 
                 // perform some basic validation on parameters
                 Object[] data = {username, password};
-                boolean validated = isValid(data);
+                boolean validated = Utils.Utils.isValid(data);
 
                 if (validated) {
                     logger.info("Valdiated");
@@ -173,23 +173,6 @@ public class UserEntityServerlet extends HttpServlet {
             session.invalidate();
             response.sendRedirect("login.jsp");
         }
-    }
-
-    private boolean isValid(Object objs[]) {
-        boolean isValid = true;
-        for (int i = 0; i < objs.length; i++) {
-            if (objs[i] != null) {
-                if (objs[i] instanceof String) {
-                    isValid = !(((String) objs[i]).isEmpty());
-                    if (!isValid) {
-                        return isValid;
-                    }
-                }
-            } else {
-                return false;
-            }
-        }
-        return isValid;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
