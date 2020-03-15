@@ -5,6 +5,8 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -13,7 +15,14 @@
     </head>
     <body>
         <h1>Please Enter User Information</h1>
-        <h2>Please Enter User Information</h2>
+        <c:if test="${not empty sessionScope.error}">
+            <p><strong>Error:</strong> <%= request.getSession().getAttribute("error")%></p>
+            <% request.getSession().removeAttribute("error");%>
+        </c:if>
+        <c:if test="${not empty sessionScope.message}">
+            <p><strong>Error:</strong> <%= request.getSession().getAttribute("message")%></p>
+            <% request.getSession().removeAttribute("message");%>
+        </c:if>
         <form method="post" action="register">
             <p>
                 First Name:
@@ -27,7 +36,7 @@
                 Day:
                 <input type="text" name="day"/>
                 Month:
-                    <select name="month">
+                <select name="month">
                     <option value="1">January</option>
                     <option value="2">February</option>
                     <option value="3">March</option>
@@ -40,7 +49,7 @@
                     <option value="10">October</option>
                     <option value="11">November</option>
                     <option value="12">December</option>
-                    </select>
+                </select>
                 Year:
                 <input type="text" name="year"/>
             </p>

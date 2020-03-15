@@ -16,13 +16,21 @@
     </head>
     <body>
         <h1>Assignment 1 - Multi-Tier System</h1>
+        <c:if test="${not empty sessionScope.error}">
+            <p><strong>Error:</strong> <%= request.getSession().getAttribute("error")%></p>
+            <% request.getSession().removeAttribute("error");%>
+        </c:if>
+        <c:if test="${not empty sessionScope.message}">
+            <p><strong>Error:</strong> <%= request.getSession().getAttribute("message")%></p>
+            <% request.getSession().removeAttribute("message");%>
+        </c:if>
         <br/>
         <jsp:useBean id="today" class="java.util.Date"/>
         <c:out value="Todays date is"/>
         <fmt:formatDate value="${today}" type="date" dateStyle="full"/>
         <br/>
         <br/>
-        
+
         <a href='<%= response.encodeURL("register.jsp")%>'>
             Create New User
         </a>
