@@ -18,11 +18,11 @@
     </head>
     <body>
         <h1>Forums</h1>
-        <c:forEach var="forum" items="${forums}">
+        <c:forEach var="forum" items="${requestScope.forums}">
             <p><c:out value="${forum.id}" /></p>
             <p><c:out value="${forum.title}" /></p>
             <p><c:out value="${forum.author}" /></p>
             <p><c:out value="${forum.price}" /></p>
-    </c:forEach>
-</body>
+        </c:forEach>
+    </body>
 </html>

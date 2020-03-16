@@ -3,14 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Post;
+package Forum;
 
-import Forum.Forum;
 import User.User;
-import User.UserEntityServerlet;
-import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.RequestDispatcher;
@@ -24,12 +20,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.transaction.HeuristicMixedException;
-import javax.transaction.HeuristicRollbackException;
-import javax.transaction.NotSupportedException;
-import javax.transaction.RollbackException;
-import javax.transaction.SystemException;
-import javax.transaction.UserTransaction;
 
 /**
  *
@@ -68,8 +58,9 @@ public class ForumEntityServerlet extends HttpServlet {
             dispatcher.forward(request, response);
         } else {
             if (servletPath.equals("/getForums")) {
+                logger.info("Test");
                 if (entityManager != null) {
-                    String jpqlCommand = "SELECT f FROM forums f";
+                    String jpqlCommand = "SELECT f FROM Forum f";
                     Query query = entityManager.createQuery(jpqlCommand);
 
                     List<Forum> forums = new ArrayList<>();
@@ -85,7 +76,7 @@ public class ForumEntityServerlet extends HttpServlet {
                     }
 
                     request.setAttribute("forums", forums);
-                    RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/forum.jsp");
+                    RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/forums.jsp");
                     dispatcher.forward(request, response);
                 }
             }
