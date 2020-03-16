@@ -6,6 +6,7 @@
 package Forum;
 
 import Post.PostPK;
+import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,7 +25,7 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "forums")
 @IdClass(value = ForumPK.class)
-public class Forum {
+public class Forum implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -39,7 +40,7 @@ public class Forum {
     @Temporal(TemporalType.DATE)
     private Date creationDate;
 
-    public Forum() {
+    public Post() {
     }
 
     public int getId() {
