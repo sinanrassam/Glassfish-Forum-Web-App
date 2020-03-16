@@ -21,8 +21,7 @@
         <c:forEach var="forum" items="${requestScope.forums}">
             <p><c:out value="${forum.id}" /></p>
             <p><c:out value="${forum.title}" /></p>
-            <p><c:out value="${forum.author}" /></p>
-            <p><c:out value="${forum.price}" /></p>
+            <p><c:out value="${forum.description}" /></p>
         </c:forEach>
     </body>
 </html>
