@@ -14,6 +14,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.RequestDispatcher;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.Query;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -31,7 +34,7 @@ import javax.transaction.UserTransaction;
  *
  * @author sinan.rassam
  */
-@WebServlet(name = "PostEntityServerlet", urlPatterns = {"/createPost"})
+@WebServlet(name = "PostEntityServerlet", urlPatterns = {"/createPost", "/getPosts"})
 public class PostEntityServerlet extends HttpServlet {
 
     private Logger logger;
@@ -102,12 +105,33 @@ public class PostEntityServerlet extends HttpServlet {
                             getRequestDispatcher("/createPost.jsp");
                     dispatcher.forward(request, response);
                 }
+            } else if (servletPath.equals("/getPosts")) {
+                String jpqlCommand = "SELECT p FROM Post p";
+                Query query = entityManager.createQuery(jpqlCommand);
+
+                List<Post> posts = new ArrayList<>();
+
+                if (query.getResultList().size() > 1) {
+                    logger.info("Posts found:");
+                    Post newPost;
+
+                    for (int i = 0; i < query.getResultList().size(); i++) {
+                        newPost = (Post) query.getResultList().get(i);
+                        posts.add(newPost);
+                    }
+
+                } else {
+                    logger.info("No posts");
+                }
+
+                request.setAttribute("posts", posts);
+                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/createPost.jsp");
+                dispatcher.forward(request, response);
             }
         }
     }
 
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-
     /**
      * Handles the HTTP <code>GET</code> method.
      *
