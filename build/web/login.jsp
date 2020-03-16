@@ -43,5 +43,8 @@
             </p>
             <input type="submit"/>
         </form>
+        <a href='<%= response.encodeURL(request.getContextPath())%>'>
+            Return to main page
+        </a>
     </body>
 </html>
