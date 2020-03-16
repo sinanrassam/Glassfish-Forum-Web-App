@@ -39,7 +39,7 @@
             </p>
             <p>
                 Description:
-                <textArea name="Description"></textarea>
+                <textArea name="description"></textarea>
             </p>
             <input type="submit"/>
         </form>

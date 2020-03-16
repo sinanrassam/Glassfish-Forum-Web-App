@@ -5,9 +5,12 @@
  */
 package Post;
 
+import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.Table;
@@ -21,9 +24,9 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "posts")
 @IdClass(value = PostPK.class)
-public class Post {
-
+public class Post implements Serializable {
     private static final long serialVersionUID = 1L;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
     private Integer id;

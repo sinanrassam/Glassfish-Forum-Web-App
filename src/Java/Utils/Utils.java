@@ -16,9 +16,9 @@ public class Utils {
         for (int i = 0; i < objs.length; i++) {
             if (objs[i] != null) {
                 if (objs[i] instanceof String) {
-                    isValid = !(((String) objs[i]).isEmpty());
-                    if (!isValid) {
-                        return isValid;
+                    boolean isEmpty = ((String) objs[i]).isEmpty();
+                    if (!isEmpty) {
+                        return true;
                     }
                 }
             } else {
