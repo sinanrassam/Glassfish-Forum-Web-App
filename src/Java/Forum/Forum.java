@@ -39,7 +39,7 @@ public class Forum {
     @Temporal(TemporalType.DATE)
     private Date creationDate;
 
-    public Post() {
+    public Forum() {
     }
 
     public int getId() {
