@@ -106,27 +106,38 @@ public class PostEntityServerlet extends HttpServlet {
                     dispatcher.forward(request, response);
                 }
             } else if (servletPath.equals("/getPosts")) {
-                String jpqlCommand = "SELECT p FROM Post p";
-                Query query = entityManager.createQuery(jpqlCommand);
+                String forum_id = request.getParameter("id");
+                Object[] data = {forum_id};
+                if (!Utils.Utils.isValid(data)) {
+                    request.getSession().setAttribute("error", "Validation Failed!");
+                    RequestDispatcher dispatcher = getServletContext().
+                            getRequestDispatcher("/forums.jsp");
+                    dispatcher.forward(request, response);
+                } else {
+                    Integer forumId = Integer.parseInt(forum_id);
+                    String jpqlCommand = "SELECT p FROM Post p WHERE p.forumId = :forumId";
+                    Query query = entityManager.createQuery(jpqlCommand);
+                    query.setParameter("forumId", forumId);
 
-                List<Post> posts = new ArrayList<>();
+                    List<Post> posts = new ArrayList<>();
 
-                if (query.getResultList().size() > 1) {
-                    logger.info("Posts found:");
-                    Post newPost;
+                    if (query.getResultList().size() > 1) {
+                        logger.info("Posts found:");
+                        Post newPost;
 
-                    for (int i = 0; i < query.getResultList().size(); i++) {
-                        newPost = (Post) query.getResultList().get(i);
-                        posts.add(newPost);
+                        for (int i = 0; i < query.getResultList().size(); i++) {
+                            newPost = (Post) query.getResultList().get(i);
+                            posts.add(newPost);
+                        }
+
+                    } else {
+                        logger.info("No posts");
                     }
 
-                } else {
-                    logger.info("No posts");
+                    request.setAttribute("posts", posts);
+                    RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/createPost.jsp");
+                    dispatcher.forward(request, response);
                 }
-
-                request.setAttribute("posts", posts);
-                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/createPost.jsp");
-                dispatcher.forward(request, response);
             }
         }
     }

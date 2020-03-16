@@ -18,8 +18,17 @@
     </head>
     <body>
         <h1>Forums</h1>
+        <c:if test="${not empty sessionScope.error}">
+            <p><strong>Error:</strong> <%= request.getSession().getAttribute("error")%></p>
+            <% request.getSession().removeAttribute("error");%>
+        </c:if>
+        <c:if test="${not empty sessionScope.message}">
+            <p><strong>Error:</strong> <%= request.getSession().getAttribute("message")%></p>
+            <% request.getSession().removeAttribute("message");%>
+        </c:if>
+
         <c:forEach var="forum" items="${requestScope.forums}">
-            <a href='<%= response.encodeURL("getPosts?id=") %><c:out value="${forum.id}" />'>
+            <a href='<%= response.encodeURL("getPosts?id=")%><c:out value="${forum.id}" />'>
                 <p><c:out value="${forum.title}" /></p></a>
             <p><c:out value="${forum.description}" /></p>
         </c:forEach>
