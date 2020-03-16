@@ -19,8 +19,8 @@
     <body>
         <h1>Forums</h1>
         <c:forEach var="forum" items="${requestScope.forums}">
-            <p><c:out value="${forum.id}" /></p>
-            <p><c:out value="${forum.title}" /></p>
+            <a href='<%= response.encodeURL("getPosts?id=") %><c:out value="${forum.id}" />'>
+                <p><c:out value="${forum.title}" /></p></a>
             <p><c:out value="${forum.description}" /></p>
         </c:forEach>
     </body>
