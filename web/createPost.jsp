@@ -35,7 +35,7 @@
             <p><strong>Message:</strong> <%= request.getSession().getAttribute("message")%></p>
             <% request.getSession().removeAttribute("message");%>
         </c:if>
-        <form action="createPost" method="POST">
+        <form action="createPost?forumId=${param.id}" method="POST">
             <p>
                 Title:
                 <input type="text" name="title"/>

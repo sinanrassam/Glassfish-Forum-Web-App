@@ -71,9 +71,10 @@ public class PostEntityServerlet extends HttpServlet {
             if (servletPath.equals("/createPost")) {
                 String title = request.getParameter("title");
                 String description = request.getParameter("description");
+                String forum_id = request.getParameter("forumId");
 
                 // perform some basic validation on parameters
-                Object[] data = {title, description};
+                Object[] data = {title, description, forum_id};
                 boolean validated = Utils.Utils.isValid(data);
 
                 if (validated) {
@@ -81,7 +82,7 @@ public class PostEntityServerlet extends HttpServlet {
                     if (entityManager != null) {
                         Post post = new Post();
 
-                        post.setForumId(-1); // Temporarily put -1
+                        post.setForumId(Integer.parseInt(forum_id)); // Temporarily put -1
                         post.setTitle(title);
                         post.setDescription(description);
                         post.setUsername(((User) session.getAttribute("user")).getUsername());
