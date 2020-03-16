@@ -5,6 +5,11 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
+<%@page import="Post.Post"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -13,5 +18,11 @@
     </head>
     <body>
         <h1>Forums</h1>
-    </body>
+        <c:forEach var="forum" items="${forums}">
+            <p><c:out value="${forum.id}" /></p>
+            <p><c:out value="${forum.title}" /></p>
+            <p><c:out value="${forum.author}" /></p>
+            <p><c:out value="${forum.price}" /></p>
+    </c:forEach>
+</body>
 </html>
