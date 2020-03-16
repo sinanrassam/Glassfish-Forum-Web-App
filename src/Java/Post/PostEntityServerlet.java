@@ -69,8 +69,6 @@ public class PostEntityServerlet extends HttpServlet {
                 String title = request.getParameter("title");
                 String description = request.getParameter("description");
 
-                logger.info("Title: " + title + "; desc: " + description);
-
                 // perform some basic validation on parameters
                 Object[] data = {title, description};
                 boolean validated = Utils.Utils.isValid(data);

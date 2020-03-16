@@ -26,8 +26,7 @@ import javax.persistence.TemporalType;
 @IdClass(value = PostPK.class)
 public class Post implements Serializable {
     private static final long serialVersionUID = 1L;
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
+    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id")
     private Integer id;
     @Column(name = "forum_id")
