@@ -89,8 +89,8 @@
                             <input type="number" class="form-control" placeholder="Day" name="day" required>
                         </div>
                         <div class="col">
-                            <select class="form-control" name="month">
-                                <option value="">Month</option>
+                            <select class="form-control" name="month" required>
+                                <option value="" selected disabled>Month</option>
                                 <option value="1">January</option>
                                 <option value="2">February</option>
                                 <option value="3">March</option>
