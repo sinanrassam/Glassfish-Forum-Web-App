@@ -171,7 +171,10 @@ public class UserEntityServerlet extends HttpServlet {
         } else if (servletPath.equals("/logout")) {
             logger.info("Logout");
             session.invalidate();
-            response.sendRedirect("login.jsp");
+            request.getSession().setAttribute("message", "You have been logged out");
+            RequestDispatcher dispatcher = getServletContext().
+                    getRequestDispatcher("/login.jsp");
+            dispatcher.forward(request, response);
         }
     }
 
