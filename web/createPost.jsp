@@ -47,14 +47,18 @@
                         </li>
                     </ul>
                     <ul class="navbar-nav nav-right">
-                        <li class="nav-item dropdown active">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                User
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="<%= response.encodeURL(request.getContextPath() + "/login.jsp")%>">Login</a>
-                                <a class="dropdown-item" href="<%= response.encodeURL(request.getContextPath() + "/register.jsp")%>">Register</a>
-                            </div>
+                        <li class="nav-item dropdown">
+                            <c:choose>
+                                <c:when test="${not empty sessionScope.user}">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Welcome ${user.username}
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="<%= response.encodeURL(request.getContextPath() + "/profile.jsp")%>">Profile</a>
+                                        <a class="dropdown-item" href="<%= response.encodeURL(request.getContextPath() + "/logout.jsp")%>">Logout</a>
+                                    </div>
+                                </c:when>
+                            </c:choose>
                         </li>
                     </ul>
                 </div>
