@@ -11,7 +11,7 @@
     <%
         request.getSession().setAttribute("error", "You are already logged in");
         RequestDispatcher dispatcher = getServletContext().
-                getRequestDispatcher("/confirmation.jsp");
+                getRequestDispatcher("/profile.jsp");
         dispatcher.forward(request, response);
     %>
 </c:if>

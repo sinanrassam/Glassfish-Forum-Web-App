@@ -152,7 +152,7 @@ public class UserEntityServerlet extends HttpServlet {
                             user = (User) query.getResultList().get(0);
                             session.setAttribute("user", user);
                             RequestDispatcher dispatcher = getServletContext().
-                                    getRequestDispatcher("/confirmation.jsp");
+                                    getRequestDispatcher("/profile.jsp");
                             dispatcher.forward(request, response);
                         } else {
                             request.getSession().setAttribute("error", "Username or Password are incorrect!");
