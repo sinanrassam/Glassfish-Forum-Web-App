@@ -7,7 +7,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-
 <c:if test="${not empty sessionScope.user}">
     <%
         request.getSession().setAttribute("error", "You are already logged in");
@@ -49,7 +48,7 @@
                                 User
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="<%= response.encodeURL(request.getContextPath() + "/login.jsp")%>">Login</a>
+                                <a class="dropdown-item active" href="<%= response.encodeURL(request.getContextPath() + "/login.jsp")%>">Login</a>
                                 <a class="dropdown-item" href="<%= response.encodeURL(request.getContextPath() + "/register.jsp")%>">Register</a>
                             </div>
                         </li>
@@ -76,7 +75,7 @@
             <h1>Login</h1>
 
             <div class="text-center">
-                <form class="form-signin" method="post">
+                <form class="form-signin" action="login" method="post">
                     <input type="text" class="form-control" placeholder="Username" name="username" required autofocus>
                     <br />
                     <input type="password" class="form-control" placeholder="Password" name="password" required>
