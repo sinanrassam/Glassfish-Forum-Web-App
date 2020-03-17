@@ -6,6 +6,8 @@
 package User;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -54,7 +56,7 @@ public class UserEntityServerlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, ParseException {
         response.setContentType("text/html;charset=UTF-8");
         String servletPath = request.getServletPath();
         HttpSession session = request.getSession(true);
@@ -71,19 +73,23 @@ public class UserEntityServerlet extends HttpServlet {
             String email = request.getParameter("email");
             String gender = request.getParameter("gender");
 
-            String dayString = request.getParameter("day");
-            String monthString = request.getParameter("month");
-            String yearString = request.getParameter("year");
+//            String dayString = request.getParameter("day");
+//            String monthString = request.getParameter("month");
+//            String yearString = request.getParameter("year");
+            String dateOfBirth = request.getParameter("dob");
 
             // perform some basic validation on parameters
-            Object[] data = {username, password, firstName, lastName, email, gender, dayString, monthString, yearString};
+            Object[] data = {username, password, firstName, lastName, email, gender, dateOfBirth};
             boolean validated = Utils.Utils.isValid(data);
 
             if (validated) {
-                int day = Integer.parseInt(dayString);
-                int month = Integer.parseInt(monthString);
-                int year = Integer.parseInt(yearString);
-                Date dob = new Date(year, month, day);
+//                int day = Integer.parseInt(dayString);
+//                int month = Integer.parseInt(monthString);
+//                int year = Integer.parseInt(yearString);
+
+                    Date dob = new SimpleDateFormat("yyyy-MM-dd").parse(dateOfBirth);
+
+                logger.info(dob.toString());
 
                 UserPK pk = new UserPK(email, username);
                 User validateUser = entityManager.find(User.class, pk);
@@ -93,6 +99,8 @@ public class UserEntityServerlet extends HttpServlet {
                     logger.info("Creating new user: " + username);
 
                     user = new User();
+
+                    logger.info(gender);
 
                     user.setFirstName(firstName);
                     user.setLastName(lastName);
@@ -152,7 +160,7 @@ public class UserEntityServerlet extends HttpServlet {
                             user = (User) query.getResultList().get(0);
                             session.setAttribute("user", user);
                             RequestDispatcher dispatcher = getServletContext().
-                                    getRequestDispatcher("/confirmation.jsp");
+                                    getRequestDispatcher("/profile.jsp");
                             dispatcher.forward(request, response);
                         } else {
                             request.getSession().setAttribute("error", "Username or Password are incorrect!");
@@ -171,7 +179,10 @@ public class UserEntityServerlet extends HttpServlet {
         } else if (servletPath.equals("/logout")) {
             logger.info("Logout");
             session.invalidate();
-            response.sendRedirect("login.jsp");
+            request.getSession().setAttribute("message", "You have been logged out");
+            RequestDispatcher dispatcher = getServletContext().
+                    getRequestDispatcher("/login.jsp");
+            dispatcher.forward(request, response);
         }
     }
 
@@ -187,7 +198,11 @@ public class UserEntityServerlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (ParseException ex) {
+            Logger.getLogger(UserEntityServerlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -201,7 +216,11 @@ public class UserEntityServerlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (ParseException ex) {
+            Logger.getLogger(UserEntityServerlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

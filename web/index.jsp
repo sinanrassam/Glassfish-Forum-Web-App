@@ -12,31 +12,87 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Index Page Assignment 1</title>
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+        <title>Home | Forum</title>
     </head>
     <body>
-        <h1>Assignment 1 - Multi-Tier System</h1>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container"
+                 <a class="navbar-brand" href="<%= response.encodeURL(request.getContextPath())%>">Forum</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="<%= response.encodeURL(request.getContextPath())%>">Home <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<%= response.encodeURL(request.getContextPath() + "/getForums")%>">Forum</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav nav-right">
+                        <li class="nav-item dropdown">
+                            <c:choose>
+                                <c:when test="${not empty sessionScope.user}">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Welcome ${user.username}
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="<%= response.encodeURL(request.getContextPath() + "/profile.jsp")%>">Profile</a>
+                                        <a class="dropdown-item" href="<%= response.encodeURL(request.getContextPath() + "/logout")%>">Logout</a>
+                                    </div>
+                                </c:when>
+                                <c:otherwise>
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        User
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="<%= response.encodeURL(request.getContextPath() + "/login.jsp")%>">Login</a>
+                                        <a class="dropdown-item" href="<%= response.encodeURL(request.getContextPath() + "/register.jsp")%>">Register</a>
+                                    </div>
+                                </c:otherwise>
+                            </c:choose>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
         <c:if test="${not empty sessionScope.error}">
-            <p><strong>Error:</strong> <%= request.getSession().getAttribute("error")%></p>
+            <div class="alert alert-danger" role="alert">
+                <strong>Error:</strong> <%= request.getSession().getAttribute("error")%>
+            </div>
             <% request.getSession().removeAttribute("error");%>
         </c:if>
+
         <c:if test="${not empty sessionScope.message}">
-            <p><strong>Error:</strong> <%= request.getSession().getAttribute("message")%></p>
+            <div class="alert alert-info" role="alert">
+                <strong>Message</strong> <%= request.getSession().getAttribute("message")%>
+            </div>
             <% request.getSession().removeAttribute("message");%>
         </c:if>
-        <br/>
-        <jsp:useBean id="today" class="java.util.Date"/>
-        <c:out value="Todays date is"/>
-        <fmt:formatDate value="${today}" type="date" dateStyle="full"/>
-        <br/>
-        <br/>
 
-        <a href='<%= response.encodeURL("register.jsp")%>'>
-            Create New User
-        </a>
-        <br>
-        <a href='<%= response.encodeURL("login.jsp")%>'>
-            Login
-        </a>
+        <div class="container">
+            <h1>Welcome to Our Forum</h1>
+            <jsp:useBean id="today" class="java.util.Date"/>
+            <p>Todays date is <fmt:formatDate value="${today}" type="date" dateStyle="full"/></p>
+            <a href='<%= response.encodeURL(request.getContextPath() + "/register.jsp")%>'>
+                <button type="button" class="btn btn-link">Click Here to Register</button>
+            </a>
+            <a href='<%= response.encodeURL(request.getContextPath() + "/login.jsp")%>'>
+                <button type="button" class="btn btn-link">Click Here to Login</button>
+            </a>
+        </div>
+
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     </body>
 </html>
