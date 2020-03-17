@@ -42,18 +42,9 @@
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                         <a class="dropdown-item active" href="<%= response.encodeURL(request.getContextPath() + "/profile.jsp")%>">Profile</a>
-                                        <a class="dropdown-item" href="<%= response.encodeURL(request.getContextPath() + "/logout.jsp")%>">Logout</a>
+                                        <a class="dropdown-item" href="<%= response.encodeURL(request.getContextPath() + "/logout")%>">Logout</a>
                                     </div>
                                 </c:when>
-                                <c:otherwise>
-                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        User
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="<%= response.encodeURL(request.getContextPath() + "/login.jsp")%>">Login</a>
-                                        <a class="dropdown-item" href="<%= response.encodeURL(request.getContextPath() + "/register.jsp")%>">Register</a>
-                                    </div>
-                                </c:otherwise>
                             </c:choose>
                         </li>
                     </ul>

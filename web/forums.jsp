@@ -46,7 +46,7 @@
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                         <a class="dropdown-item" href="<%= response.encodeURL(request.getContextPath() + "/profile.jsp")%>">Profile</a>
-                                        <a class="dropdown-item" href="<%= response.encodeURL(request.getContextPath() + "/logout.jsp")%>">Logout</a>
+                                        <a class="dropdown-item" href="<%= response.encodeURL(request.getContextPath() + "/logout")%>">Logout</a>
                                     </div>
                                 </c:when>
                             </c:choose>
