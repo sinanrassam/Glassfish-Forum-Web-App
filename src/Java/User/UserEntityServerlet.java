@@ -103,7 +103,6 @@ public class UserEntityServerlet extends HttpServlet {
                         user.setAge(20);
                         user.setGender(gender);
                         user.setUsername(username);
-                        user.setPassword(password);
 
                         try {
                             userTransaction.begin();

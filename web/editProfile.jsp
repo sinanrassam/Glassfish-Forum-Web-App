@@ -118,11 +118,6 @@
                         <input type="text" class="form-control" value="<c:out value="${user.username}"/>" name="username" required readonly>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-check-label">Password</label>
-                    <input type="password" class="form-control" name="password" required>
-                </div>
-
                 <button class="btn btn-primary btn-block" type="submit">Update Details</button>
             </form>
             <br/>
