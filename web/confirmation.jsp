@@ -52,8 +52,8 @@
                     </tr>
                 </table>
                 <br />
-                <a href='/animals/createPost.jsp'> Create Post </a> <br><br>
-                <a href='<%= response.encodeURL(request.getContextPath())%>/logout'>Logout>></a>
+                <a href='<%= response.encodeURL(request.getContextPath() + "/getForums")%>'>View Forums>></a><br><br>
+                <a href='<%= response.encodeURL(request.getContextPath() + "/logout")%>'>Logout>></a>
             </c:when>
             <c:otherwise>
                 <%

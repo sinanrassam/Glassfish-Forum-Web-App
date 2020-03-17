@@ -14,6 +14,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.RequestDispatcher;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.Query;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -31,7 +34,7 @@ import javax.transaction.UserTransaction;
  *
  * @author sinan.rassam
  */
-@WebServlet(name = "PostEntityServerlet", urlPatterns = {"/createPost"})
+@WebServlet(name = "PostEntityServerlet", urlPatterns = {"/createPost", "/getPosts"})
 public class PostEntityServerlet extends HttpServlet {
 
     private Logger logger;
@@ -68,9 +71,10 @@ public class PostEntityServerlet extends HttpServlet {
             if (servletPath.equals("/createPost")) {
                 String title = request.getParameter("title");
                 String description = request.getParameter("description");
+                String forum_id = request.getParameter("forumId");
 
                 // perform some basic validation on parameters
-                Object[] data = {title, description};
+                Object[] data = {title, description, forum_id};
                 boolean validated = Utils.Utils.isValid(data);
 
                 if (validated) {
@@ -78,7 +82,7 @@ public class PostEntityServerlet extends HttpServlet {
                     if (entityManager != null) {
                         Post post = new Post();
 
-                        post.setForumId(-1); // Temporarily put -1
+                        post.setForumId(Integer.parseInt(forum_id)); // Temporarily put -1
                         post.setTitle(title);
                         post.setDescription(description);
                         post.setUsername(((User) session.getAttribute("user")).getUsername());
@@ -102,12 +106,44 @@ public class PostEntityServerlet extends HttpServlet {
                             getRequestDispatcher("/createPost.jsp");
                     dispatcher.forward(request, response);
                 }
+            } else if (servletPath.equals("/getPosts")) {
+                String forum_id = request.getParameter("id");
+                Object[] data = {forum_id};
+                if (!Utils.Utils.isValid(data)) {
+                    request.getSession().setAttribute("error", "Validation Failed!");
+                    RequestDispatcher dispatcher = getServletContext().
+                            getRequestDispatcher("/forums.jsp");
+                    dispatcher.forward(request, response);
+                } else {
+                    Integer forumId = Integer.parseInt(forum_id);
+                    String jpqlCommand = "SELECT p FROM Post p WHERE p.forumId = :forumId";
+                    Query query = entityManager.createQuery(jpqlCommand);
+                    query.setParameter("forumId", forumId);
+
+                    List<Post> posts = new ArrayList<>();
+
+                    if (query.getResultList().size() > 1) {
+                        logger.info("Posts found:");
+                        Post newPost;
+
+                        for (int i = 0; i < query.getResultList().size(); i++) {
+                            newPost = (Post) query.getResultList().get(i);
+                            posts.add(newPost);
+                        }
+
+                    } else {
+                        logger.info("No posts");
+                    }
+
+                    request.setAttribute("posts", posts);
+                    RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/createPost.jsp");
+                    dispatcher.forward(request, response);
+                }
             }
         }
     }
 
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-
     /**
      * Handles the HTTP <code>GET</code> method.
      *

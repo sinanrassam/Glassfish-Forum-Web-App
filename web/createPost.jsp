@@ -35,7 +35,7 @@
             <p><strong>Message:</strong> <%= request.getSession().getAttribute("message")%></p>
             <% request.getSession().removeAttribute("message");%>
         </c:if>
-        <form action="createPost" method="POST">
+        <form action="createPost?forumId=${param.id}" method="POST">
             <p>
                 Title:
                 <input type="text" name="title"/>
@@ -46,25 +46,24 @@
             </p>
             <input type="submit"/>
         </form>
-            <form action="loadForum" method="POST">
-            <input type="submit" value="Load"/>
-        </form>
-        <h1> Forum posts: </h1>
-            <%
-                List<Post> posts = (ArrayList<Post>)request.getAttribute("posts");
             
-                if(posts != null) {
-                    for(Post post : posts)
-                    {
-                        out.print("Name: " + post.getUsername() + " Date: " + post.getCreationDate());
-                        out.print("<br/>");
-                        out.print("Post: <br/>" + post.getDescription());
-                        out.print("<br/>");
-                        out.print("<br/>");
-                    }
+        <a href='<%= response.encodeURL(request.getContextPath())%>/getPosts'><input type="button" value="Load Posts"/></a>
+            
+        <h1> Forum posts: </h1>
+        <%
+            List<Post> posts = (ArrayList<Post>) request.getAttribute("posts");
+
+            if (posts != null) {
+                for (Post post : posts) {
+                    out.print("Name: " + post.getUsername() + " Date: " + post.getCreationDate());
+                    out.print("<br/>");
+                    out.print("Post: <br/>" + post.getDescription());
+                    out.print("<br/>");
+                    out.print("<br/>");
                 }
- 
-            %>
+            }
+
+        %>
         <br><a href='/animals/confirmation.jsp'> Return </a>
     </body>
 </html>
