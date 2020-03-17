@@ -84,7 +84,7 @@
                     <button class="btn btn-primary btn-block" type="submit">Sign in</button>
                 </form>
                 <br />
-                <a href='<%= response.encodeURL(request.getContextPath() + "register")%>'>
+                <a href='<%= response.encodeURL(request.getContextPath() + "/register.jsp")%>'>
                     Don't have an account yet?
                 </a>
                 <br />
