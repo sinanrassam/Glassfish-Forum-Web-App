@@ -61,7 +61,7 @@
             <div class="alert alert-info" role="alert">
                 <strong>Message</strong> <%= request.getSession().getAttribute("message")%>
             </div>
-            <% request.getSession().removeAttribute("error");%>
+            <% request.getSession().removeAttribute("message");%>
         </c:if>
 
         <div class="container">
