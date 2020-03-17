@@ -73,7 +73,7 @@
             <form class="form-signin" action="register" method="post">
                 <div class="form-group">
                     <label class="form-check-label">First Name</label>
-                    <input type="text" class="form-control" placeholder="First Name" name="firstName" required autofocus>
+                    <input type="text" class="form-control" placeholder="First Name" name="firstName" required>
                 </div>
 
                 <div class="form-group">
@@ -88,7 +88,7 @@
 
                 <div class="form-group">
                     <label class="form-check-label">Email Address</label>
-                    <input type="email" class="form-control" placeholder="Email Address" name="email" required>
+                    <input type="email" class="form-control" placeholder="Email Address" name="email" required readonly>
                 </div>
 
                 <div class="form-group">
@@ -108,7 +108,7 @@
 
                 <div class="form-group">
                     <label class="form-check-label">Username</label>
-                    <input type="text" class="form-control" placeholder="Username" name="username" required>
+                    <input type="text" class="form-control" placeholder="Username" name="username" required readonly>
                 </div>
 
                 <div class="form-group">
