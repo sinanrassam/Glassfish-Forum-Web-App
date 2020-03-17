@@ -41,8 +41,8 @@
                                 User
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="<%= response.encodeURL(request.getContextPath() + "/login")%>">Login</a>
-                                <a class="dropdown-item" href="<%= response.encodeURL(request.getContextPath() + "/register")%>">Register</a>
+                                <a class="dropdown-item" href="<%= response.encodeURL(request.getContextPath() + "/login.jsp")%>">Login</a>
+                                <a class="dropdown-item" href="<%= response.encodeURL(request.getContextPath() + "/register.jsp")%>">Register</a>
                             </div>
                         </li>
                     </ul>
