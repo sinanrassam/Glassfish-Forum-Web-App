@@ -84,7 +84,31 @@
                 </div>
 
                 <div class="form-group">
-                    <input type="date" class="form-control" placeholder="Date Of Birth" name="dob" required>
+                    <div class="form-row">
+                        <div class="col">
+                            <input type="number" class="form-control" placeholder="Day" name="day" required>
+                        </div>
+                        <div class="col">
+                            <select class="form-control" name="month">
+                                <option value="">Month</option>
+                                <option value="1">January</option>
+                                <option value="2">February</option>
+                                <option value="3">March</option>
+                                <option value="4">April</option>
+                                <option value="5">May</option>
+                                <option value="6">June</option>
+                                <option value="7">July</option>
+                                <option value="8">August</option>
+                                <option value="9">September</option>
+                                <option value="10">October</option>
+                                <option value="11">November</option>
+                                <option value="12">December</option>
+                            </select>
+                        </div>
+                        <div class="col">
+                            <input type="year" class="form-control" placeholder="Year" name="year" required>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="form-group">
@@ -113,7 +137,7 @@
                 <div class="form-group">
                     <input type="password" class="form-control" placeholder="Password" name="password" required>
                 </div>
-                
+
                 <button class="btn btn-primary btn-block" type="submit">Register</button>
             </form>
             <br/>
