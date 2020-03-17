@@ -75,16 +75,17 @@
             <h1>Login</h1>
 
             <form class="form-signin" action="login" method="post">
-                <label class="form-check-label">Username</label>
-                <input type="text" class="form-control" placeholder="Username" name="username" required autofocus>
-                <br />
-                <label class="form-check-label">Password</label>
-                <input type="password" class="form-control" placeholder="Password" name="password" required>
-                <br />
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Username" name="username" required autofocus>
+                </div>
+
+                <div class="form-group">
+                    <input type="password" class="form-control" placeholder="Password" name="password" required>
+                </div>
                 <button class="btn btn-primary btn-block" type="submit">Sign in</button>
             </form>
             <br />
-            
+
             <div class="text-center">
                 <a href='<%= response.encodeURL(request.getContextPath() + "/register.jsp")%>'>
                     Don't have an account yet?

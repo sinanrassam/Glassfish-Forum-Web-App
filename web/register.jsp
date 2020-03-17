@@ -75,41 +75,49 @@
             <h1>Please Enter User Information</h1>
 
             <form class="form-signin" action="register" method="post">
-                <label class="form-check-label">First Name</label>
-                <input type="text" class="form-control" placeholder="First Name" name="firstName" required autofocus>
-                <br />
-                <label class="form-check-label">Last Name</label>
-                <input type="text" class="form-control" placeholder="Last Name" name="lastName" required>
-                <br />
-                <label class="form-check-label">Date Of Birth</label>
-                <input type="date" class="form-control" placeholder="Date Of Birth" name="dob" required>
-                <br />
-                <label class="form-check-label">Email Address</label>
-                <input type="email" class="form-control" placeholder="Email Address" name="email" required>
-                <br />
-                <label class="form-check-label">Gender</label>
-                <br />
-                <div class="input-group">
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" id="gender-1" name="gender">
-                        <label class="form-check-label" for="gender-1">Male</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" id="gender-2" name="gender">
-                        <label class="form-check-label" for="gender-2">Female</label>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="First Name" name="firstName" required autofocus>
+                </div>
+
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Last Name" name="lastName" required>
+                </div>
+
+                <div class="form-group">
+                    <input type="date" class="form-control" placeholder="Date Of Birth" name="dob" required>
+                </div>
+
+                <div class="form-group">
+                    <input type="email" class="form-control" placeholder="Email Address" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-check-label">Gender</label>
+                    <br />
+                    <div class="input-group">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="gender-1" name="gender" required>
+                            <label class="form-check-label" for="gender-1">Male</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="gender-2" name="gender" required>
+                            <label class="form-check-label" for="gender-2">Female</label>
+                        </div>
                     </div>
                 </div>
-                <br />
-                <label class="form-check-label">Username</label>
-                <input type="text" class="form-control" placeholder="Username" name="username" required>
-                <br />
-                <label class="form-check-label">Password</label>
-                <input type="password" class="form-control" placeholder="Password" name="password" required>
-                <br />
+
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Username" name="username" required>
+                </div>
+
+                <div class="form-group">
+                    <input type="password" class="form-control" placeholder="Password" name="password" required>
+                </div>
+                
                 <button class="btn btn-primary btn-block" type="submit">Register</button>
             </form>
             <br/>
-            
+
             <div class="text-center">
                 <a href='<%= response.encodeURL(request.getContextPath() + "/login.jsp")%>'>
                     Already have an account yet?
