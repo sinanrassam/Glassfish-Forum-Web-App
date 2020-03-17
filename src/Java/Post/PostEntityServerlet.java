@@ -71,7 +71,9 @@ public class PostEntityServerlet extends HttpServlet {
             if (servletPath.equals("/createPost")) {
                 String title = request.getParameter("title");
                 String description = request.getParameter("description");
-                String forum_id = request.getParameter("forumId");
+                String forum_id = request.getParameter("id");
+                
+                logger.info(forum_id);
 
                 // perform some basic validation on parameters
                 Object[] data = {title, description, forum_id};

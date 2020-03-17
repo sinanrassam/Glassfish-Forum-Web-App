@@ -83,13 +83,13 @@
 
             <h2>Create a New Post</h2>
 
-            <form>
+            <form method="post" action="createPost?id=${param.id}">
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Title">
+                    <input type="text" class="form-control" placeholder="Title" name="title">
                 </div>
 
                 <div class="form-group">
-                    <textarea class="form-control" rows="3" placeholder="Description"></textarea>
+                    <textarea class="form-control" rows="3" placeholder="Description" name="description"></textarea>
                 </div>
 
                 <button class="btn btn-primary btn-block" type="submit">Create Post</button>
