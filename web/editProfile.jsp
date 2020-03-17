@@ -70,25 +70,25 @@
         <div class="container">
             <h1>Please Enter User Information</h1>
 
-            <form class="form-signin" action="register" method="post">
+            <form class="form-signin" action="register" method="post">                
                 <div class="form-group">
                     <label class="form-check-label">First Name</label>
-                    <input type="text" class="form-control" placeholder="First Name" name="firstName" required>
+                    <input type="text" class="form-control" value="<c:out value="${user.firstName}"/>" name="firstName" required>
                 </div>
 
                 <div class="form-group">
                     <label class="form-check-label">Last Name</label>
-                    <input type="text" class="form-control" placeholder="Last Name" name="lastName" required>
+                    <input type="text" class="form-control" value="<c:out value="${user.firstName}"/>" name="lastName" required>
                 </div>
 
                 <div class="form-group">
                     <label class="form-check-label">Date Of Birth</label>
-                    <input type="date" class="form-control" placeholder="Date of Birth" name="dob" required>
+                    <input type="date" class="form-control" value="<c:out value="${user.dob}"/>" name="dob" required>
                 </div>
 
                 <div class="form-group">
                     <label class="form-check-label">Email Address</label>
-                    <input type="email" class="form-control" placeholder="Email Address" name="email" required readonly>
+                    <input type="email" class="form-control" value="<c:out value="${user.email}"/>" name="email" required readonly>
                 </div>
 
                 <div class="form-group">
@@ -96,24 +96,31 @@
                     <br />
                     <div class="input-group">
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" id="gender-1" name="gender" value="Male" required>
-                            <label class="form-check-label" for="gender-1">Male</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" id="gender-2" name="gender" value="Female" required>
-                            <label class="form-check-label" for="gender-2">Female</label>
+                            <c:set var="gender1" value="male"/>
+                            <c:set var="gender" value="${user.gender}"/>
+                            <input class="form-check-input" type="radio" id="gender-1" name="gender" 
+                                   <c:if test="${fn:containsIgnoreCase(user.gender, 'male')}">checked</c:if>
+                                       value="Male" required>
+                                   <label class="form-check-label" for="gender-1">Male</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                            <c:set var="gender2" value="Female"/>
+                            <input class="form-check-input" type="radio" id="gender-2" name="gender"
+                                   <c:if test="${fn:containsIgnoreCase(user.gender, 'female')}">checked</c:if>
+                                       value="female" required>
+                                   <label class="form-check-label" for="gender-2">Female</label>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    <label class="form-check-label">Username</label>
-                    <input type="text" class="form-control" placeholder="Username" name="username" required readonly>
+                    <div class="form-group">
+                        <label class="form-check-label">Username</label>
+                        <input type="text" class="form-control" value="<c:out value="${user.username}"/>" name="username" required readonly>
                 </div>
 
                 <div class="form-group">
                     <label class="form-check-label">Password</label>
-                    <input type="password" class="form-control" placeholder="Password" name="password" required>
+                    <input type="password" class="form-control" name="password" required>
                 </div>
 
                 <button class="btn btn-primary btn-block" type="submit">Register</button>

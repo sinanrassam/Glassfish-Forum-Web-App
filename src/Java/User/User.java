@@ -7,7 +7,6 @@ package User;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -75,7 +74,7 @@ public class User implements Serializable {
     }
 
     public String getDob() {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         return sdf.format(dob);
     }
 

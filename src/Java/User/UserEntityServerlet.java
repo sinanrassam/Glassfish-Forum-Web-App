@@ -33,7 +33,7 @@ import javax.transaction.UserTransaction;
  *
  * @author sinan.rassam
  */
-@WebServlet(name = "UserEntityServerlet", urlPatterns = {"/login", "/logout", "/register"})
+@WebServlet(name = "UserEntityServerlet", urlPatterns = {"/login", "/logout", "/register", "/editProfile"})
 public class UserEntityServerlet extends HttpServlet {
 
     private Logger logger;
@@ -73,9 +73,6 @@ public class UserEntityServerlet extends HttpServlet {
             String email = request.getParameter("email");
             String gender = request.getParameter("gender");
 
-//            String dayString = request.getParameter("day");
-//            String monthString = request.getParameter("month");
-//            String yearString = request.getParameter("year");
             String dateOfBirth = request.getParameter("dob");
 
             // perform some basic validation on parameters
@@ -83,11 +80,7 @@ public class UserEntityServerlet extends HttpServlet {
             boolean validated = Utils.Utils.isValid(data);
 
             if (validated) {
-//                int day = Integer.parseInt(dayString);
-//                int month = Integer.parseInt(monthString);
-//                int year = Integer.parseInt(yearString);
-
-                    Date dob = new SimpleDateFormat("yyyy-MM-dd").parse(dateOfBirth);
+                Date dob = new SimpleDateFormat("yyyy-MM-dd").parse(dateOfBirth);
 
                 logger.info(dob.toString());
 
@@ -176,6 +169,14 @@ public class UserEntityServerlet extends HttpServlet {
                     dispatcher.forward(request, response);
                 }
             }
+        } else if (servletPath.equals("/editProfile")) {
+            String userId = request.getParameter("userId");
+            if (userId == null) {
+                request.setAttribute("user", user);
+            }
+            RequestDispatcher dispatcher = getServletContext().
+                    getRequestDispatcher("/editProfile.jsp");
+            dispatcher.forward(request, response);
         } else if (servletPath.equals("/logout")) {
             logger.info("Logout");
             session.invalidate();
