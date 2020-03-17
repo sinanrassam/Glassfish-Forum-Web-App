@@ -82,10 +82,11 @@
             <jsp:useBean id="today" class="java.util.Date"/>
             <p>Todays date is <fmt:formatDate value="${today}" type="date" dateStyle="full"/></p>
             <a href='<%= response.encodeURL(request.getContextPath() + "/register.jsp")%>'>
-                <button type="button" class="btn btn-link">Click Here to Register</button>
+                Click Here to Register
             </a>
+            <br />
             <a href='<%= response.encodeURL(request.getContextPath() + "/login.jsp")%>'>
-                <button type="button" class="btn btn-link">Click Here to Login</button>
+                Click Here to Login
             </a>
         </div>
 

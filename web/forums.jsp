@@ -72,7 +72,22 @@
 
         <div class="container">
             <h1>Forums</h1>
+            
+            <h2>Create a New Forum</h2>
 
+            <form method="post" action="/forum/createForum?id=${param.id}">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Title" name="title">
+                </div>
+
+                <div class="form-group">
+                    <textarea class="form-control" rows="3" placeholder="Description" name="description"></textarea>
+                </div>
+
+                <button class="btn btn-primary btn-block" type="submit">Create Forum</button>
+                <hr />
+            </form>
+                
             <ul class="list-group">
                 <c:forEach var="forum" items="${requestScope.forums}">
                     <li class="list-group-item">

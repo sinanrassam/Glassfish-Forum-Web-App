@@ -45,6 +45,8 @@ public class User implements Serializable {
     private String gender;
     @Column(name = "password")
     private String password;
+    @Column(name = "adminLevel")
+    private int adminLevel;
 
     public User() {
     }
@@ -108,5 +110,11 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+    public void setAdminLevel(int adminLevel) {
+        this.adminLevel = adminLevel;
+    }
+    public int getAdminLevel() {
+        return adminLevel;
     }
 }
