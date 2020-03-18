@@ -10,6 +10,8 @@ package Utils;
  * @author sinan.rassam
  */
 public class Utils {
+    
+    public static final String DATE_FORMAT = "yyyy-MM-dd";
 
     public static boolean isValid(Object objs[]) {
         boolean isValid = true;
