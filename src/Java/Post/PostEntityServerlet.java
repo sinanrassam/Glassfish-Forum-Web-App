@@ -88,7 +88,6 @@ public class PostEntityServerlet extends HttpServlet {
                         post.setForumId(Integer.parseInt(forum_id)); // Temporarily put -1
                         post.setTitle(title);
                         post.setDescription(description);
-                        post.setCreationDate(new Date());
                         post.setUsername(((User) session.getAttribute("user")).getUsername());
                         post.setCreationDate(new Date());
 
@@ -101,14 +100,14 @@ public class PostEntityServerlet extends HttpServlet {
                             request.getSession().setAttribute("error", "Post Could not be created!");
                             Logger.getLogger(UserEntityServerlet.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/getPosts");
+                        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/createPost.jsp");
                         dispatcher.forward(request, response);
                     }
                 } else {
                     logger.info("Not Valdiated");
                     request.getSession().setAttribute("error", "Validation Failed!");
                     RequestDispatcher dispatcher = getServletContext().
-                            getRequestDispatcher("/getPosts");
+                            getRequestDispatcher("/createPost.jsp");
                     dispatcher.forward(request, response);
                 }
             } else if (servletPath.equals("/getPosts")) {

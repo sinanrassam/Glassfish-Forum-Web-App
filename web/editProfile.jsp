@@ -70,7 +70,7 @@
         <div class="container">
             <h1>Please Enter User Information</h1>
 
-            <form class="form-signin" action="updateDetails" method="post">                
+            <form class="form-signin" action="register" method="post">                
                 <div class="form-group">
                     <label class="form-check-label">First Name</label>
                     <input type="text" class="form-control" value="<c:out value="${user.firstName}"/>" name="firstName" required>
@@ -118,7 +118,12 @@
                         <input type="text" class="form-control" value="<c:out value="${user.username}"/>" name="username" required readonly>
                 </div>
 
-                <button class="btn btn-primary btn-block" type="submit">Update Details</button>
+                <div class="form-group">
+                    <label class="form-check-label">Password</label>
+                    <input type="password" class="form-control" name="password" required>
+                </div>
+
+                <button class="btn btn-primary btn-block" type="submit">Register</button>
             </form>
             <br/>
 

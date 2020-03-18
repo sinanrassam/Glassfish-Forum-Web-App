@@ -95,7 +95,9 @@
                 <button class="btn btn-primary btn-block" type="submit">Create Post</button>
                 <hr />
             </form>
-                
+
+            <a href='<%= response.encodeURL(request.getContextPath())%>/getPosts'><input type="button" value="Load Posts"/></a>
+
             <h2>Forum Posts:</h2>
 
             <ul class="list-group">
