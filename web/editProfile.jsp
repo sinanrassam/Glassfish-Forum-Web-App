@@ -99,43 +99,31 @@
                             <c:set var="gender1" value="male"/>
                             <c:set var="gender" value="${user.gender}"/>
                             <input class="form-check-input" type="radio" id="gender-1" name="gender" 
-                                   <c:if test="${fn:containsIgnoreCase(user.gender, 'male')}">checked</c:if>
-                                       value="Male" required>
-                                   <label class="form-check-label" for="gender-1">Male</label>
-                            </div>
-                            <div class="form-check form-check-inline">
+                                   <c:if test="${fn:containsIgnoreCase(user.gender, 'male')}">
+                                       checked
+                                   </c:if>
+                                   value="Male" required>
+                            <label class="form-check-label" for="gender-1">Male</label>
+                        </div>
+                        <div class="form-check form-check-inline">
                             <c:set var="gender2" value="Female"/>
                             <input class="form-check-input" type="radio" id="gender-2" name="gender"
-                                   <c:if test="${fn:containsIgnoreCase(user.gender, 'female')}">checked</c:if>
-                                       value="female" required>
-                                   <label class="form-check-label" for="gender-2">Female</label>
-                            </div>
+                                   <c:if test="${fn:containsIgnoreCase(user.gender, 'female')}">
+                                       checked
+                                   </c:if>
+                                   value="female" required>
+                            <label class="form-check-label" for="gender-2">Female</label>
                         </div>
                     </div>
-
-                    <div class="form-group">
-                        <label class="form-check-label">Username</label>
-                        <input type="text" class="form-control" value="<c:out value="${user.username}"/>" name="username" required readonly>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-check-label">Password</label>
-                    <input type="password" class="form-control" name="password" required>
+                    <label class="form-check-label">Username</label>
+                    <input type="text" class="form-control" value="<c:out value="${user.username}"/>" name="username" required readonly>
                 </div>
 
-                <button class="btn btn-primary btn-block" type="submit">Register</button>
+                <button class="btn btn-primary btn-block" type="submit">Update Details</button>
             </form>
-            <br/>
-
-            <div class="text-center">
-                <a href='<%= response.encodeURL(request.getContextPath() + "/login.jsp")%>'>
-                    Already have an account yet?
-                </a>
-                <br />
-                <a href='<%= response.encodeURL(request.getContextPath())%>'>
-                    Return to main page
-                </a>
-            </div>
         </div>
 
         <!-- Optional JavaScript -->
