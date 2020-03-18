@@ -68,7 +68,7 @@ public class Forum implements Serializable {
         this.description = description;
     }
 
-    public Date getCreationDate() {
+    public String getCreationDate() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         return sdf.format(creationDate);
     }
