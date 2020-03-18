@@ -91,7 +91,7 @@ public class UserEntityServerlet extends HttpServlet {
                     String jpqlCommand = "SELECT u FROM User u WHERE u.username = :username";
                     Query query = entityManager.createQuery(jpqlCommand);
                     query.setParameter("username", username);
-
+                    
                     String jpqlCommand2 = "SELECT u FROM User u WHERE u.email = :email";
                     Query query2 = entityManager.createQuery(jpqlCommand2);
                     query2.setParameter("email", email);
@@ -103,7 +103,7 @@ public class UserEntityServerlet extends HttpServlet {
                         user = new User();
 
                         logger.info(gender);
-
+                        
                         user.setFirstName(firstName);
                         user.setLastName(lastName);
                         user.setEmail(email);
@@ -113,7 +113,7 @@ public class UserEntityServerlet extends HttpServlet {
                         user.setUsername(username);
                         user.setPassword(password);
                         user.setAdminLevel(1);
-
+                        
                         try {
                             userTransaction.begin();
                             entityManager.persist(user);
