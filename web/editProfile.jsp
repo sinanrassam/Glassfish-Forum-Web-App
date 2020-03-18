@@ -70,7 +70,7 @@
         <div class="container">
             <h1>Please Enter User Information</h1>
 
-            <form class="form-signin" action="register" method="post">                
+            <form class="form-signin" action="updateDetails" method="post">                
                 <div class="form-group">
                     <label class="form-check-label">First Name</label>
                     <input type="text" class="form-control" value="<c:out value="${user.firstName}"/>" name="firstName" required>
