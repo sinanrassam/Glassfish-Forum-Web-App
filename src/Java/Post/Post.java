@@ -6,6 +6,7 @@
 package Post;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -84,8 +85,9 @@ public class Post implements Serializable {
         this.description = description;
     }
 
-    public Date getCreationDate() {
-        return creationDate;
+    public String getCreationDate() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        return sdf.format(creationDate);
     }
 
     public void setCreationDate(Date creationDate) {
