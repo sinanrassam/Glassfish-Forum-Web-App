@@ -103,6 +103,7 @@ public class UserEntityServerlet extends HttpServlet {
                         user.setAge(20);
                         user.setGender(gender);
                         user.setUsername(username);
+                        user.setPassword(password);
 
                         try {
                             userTransaction.begin();
@@ -127,9 +128,9 @@ public class UserEntityServerlet extends HttpServlet {
                         user.setFirstName(firstName);
                         user.setLastName(lastName);
                         user.setGender(gender);
-                        user.setPassword(password);
                         user.setDob(dob);
                         user.setAge(20);
+                        entityManager.merge(user);
                         userTransaction.commit();
                     } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
                         Logger.getLogger(UserEntityServerlet.class.getName()).log(Level.SEVERE, null, ex);
