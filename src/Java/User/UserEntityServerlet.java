@@ -186,13 +186,15 @@ public class UserEntityServerlet extends HttpServlet {
                             getRequestDispatcher("/login.jsp");
                     dispatcher.forward(request, response);
                 }
+            } else {
+                RequestDispatcher dispatcher = getServletContext().
+                        getRequestDispatcher("/profile.jsp");
+                dispatcher.forward(request, response);
             }
         } else if (servletPath.equals("/logout")) {
-            logger.info("Logout");
-            session.invalidate();
-            request.getSession().setAttribute("message", "You have been logged out");
+            session.setAttribute("user", user);
             RequestDispatcher dispatcher = getServletContext().
-                    getRequestDispatcher("/login.jsp");
+                    getRequestDispatcher("/profile.jsp");
             dispatcher.forward(request, response);
         }
     }
