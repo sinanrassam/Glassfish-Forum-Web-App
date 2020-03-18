@@ -126,7 +126,7 @@ public class PostEntityServerlet extends HttpServlet {
 
                     List<Post> posts = new ArrayList<>();
 
-                    if (query.getResultList().size() > 1) {
+                    if (query.getResultList().size() > 0) {
                         logger.info("Posts found:");
                         Post newPost;
 
@@ -134,7 +134,6 @@ public class PostEntityServerlet extends HttpServlet {
                             newPost = (Post) query.getResultList().get(i);
                             posts.add(newPost);
                         }
-
                     } else {
                         logger.info("No posts");
                     }
