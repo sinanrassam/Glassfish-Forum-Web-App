@@ -6,6 +6,7 @@
 package User;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -72,8 +73,9 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public Date getDob() {
-        return dob;
+    public String getDob() {
+        SimpleDateFormat sdf = new SimpleDateFormat(Utils.Utils.DATE_FORMAT);
+        return sdf.format(dob);
     }
 
     public void setDob(Date dob) {
@@ -103,7 +105,7 @@ public class User implements Serializable {
     public void setUsername(String username) {
         this.username = username;
     }
-    
+
     public void setPassword(String password) {
         this.password = password;
     }
