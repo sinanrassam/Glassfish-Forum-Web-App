@@ -15,8 +15,8 @@ public class UserPK implements Serializable {
     public UserPK() {
     }
 
-    public UserPK(String email, String username) {
-        this.email = email;
+    public UserPK(String username) {
+        //this.email = email;
         this.username = username;
     }
 

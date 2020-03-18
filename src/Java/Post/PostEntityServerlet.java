@@ -15,6 +15,7 @@ import javax.persistence.PersistenceContext;
 import javax.servlet.RequestDispatcher;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Query;
 import javax.servlet.ServletException;
@@ -88,6 +89,7 @@ public class PostEntityServerlet extends HttpServlet {
                         post.setTitle(title);
                         post.setDescription(description);
                         post.setUsername(((User) session.getAttribute("user")).getUsername());
+                        post.setCreationDate(new Date());
 
                         try {
                             userTransaction.begin();

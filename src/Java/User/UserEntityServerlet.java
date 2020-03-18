@@ -8,6 +8,9 @@ package User;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,7 +36,7 @@ import javax.transaction.UserTransaction;
  *
  * @author sinan.rassam
  */
-@WebServlet(name = "UserEntityServerlet", urlPatterns = {"/login", "/logout", "/register"})
+@WebServlet(name = "UserEntityServerlet", urlPatterns = {"/login", "/logout", "/register", "/editProfile"})
 public class UserEntityServerlet extends HttpServlet {
 
     private Logger logger;
@@ -73,9 +76,6 @@ public class UserEntityServerlet extends HttpServlet {
             String email = request.getParameter("email");
             String gender = request.getParameter("gender");
 
-//            String dayString = request.getParameter("day");
-//            String monthString = request.getParameter("month");
-//            String yearString = request.getParameter("year");
             String dateOfBirth = request.getParameter("dob");
 
             // perform some basic validation on parameters
@@ -83,18 +83,19 @@ public class UserEntityServerlet extends HttpServlet {
             boolean validated = Utils.Utils.isValid(data);
 
             if (validated) {
-//                int day = Integer.parseInt(dayString);
-//                int month = Integer.parseInt(monthString);
-//                int year = Integer.parseInt(yearString);
-
-                    Date dob = new SimpleDateFormat("yyyy-MM-dd").parse(dateOfBirth);
+                Date dob = new SimpleDateFormat("yyyy-MM-dd").parse(dateOfBirth);
 
                 logger.info(dob.toString());
 
-                UserPK pk = new UserPK(email, username);
-                User validateUser = entityManager.find(User.class, pk);
+                String jpqlCommand = "SELECT u FROM User u WHERE u.username = :username";
+                Query query = entityManager.createQuery(jpqlCommand);
+                query.setParameter("username", username);
 
-                if (validateUser == null) {
+                String jpqlCommand2 = "SELECT u FROM User u WHERE u.email = :email";
+                Query query2 = entityManager.createQuery(jpqlCommand2);
+                query2.setParameter("email", email);
+                
+                if (query.getResultList().isEmpty() && query2.getResultList().isEmpty()) {
                     logger.info("User not found");
                     logger.info("Creating new user: " + username);
 
@@ -106,10 +107,11 @@ public class UserEntityServerlet extends HttpServlet {
                     user.setLastName(lastName);
                     user.setEmail(email);
                     user.setDob(dob);
-                    user.setAge(20);
+                    user.setAge(calculateAge(dob));
                     user.setGender(gender);
                     user.setUsername(username);
                     user.setPassword(password);
+                    user.setAdminLevel(1);
 
                     try {
                         userTransaction.begin();
@@ -176,6 +178,14 @@ public class UserEntityServerlet extends HttpServlet {
                     dispatcher.forward(request, response);
                 }
             }
+        } else if (servletPath.equals("/editProfile")) {
+            String userId = request.getParameter("userId");
+            if (userId == null) {
+                request.setAttribute("user", user);
+            }
+            RequestDispatcher dispatcher = getServletContext().
+                    getRequestDispatcher("/editProfile.jsp");
+            dispatcher.forward(request, response);
         } else if (servletPath.equals("/logout")) {
             logger.info("Logout");
             session.invalidate();
@@ -186,6 +196,14 @@ public class UserEntityServerlet extends HttpServlet {
         }
     }
 
+    public int calculateAge(Date dob) {
+        LocalDate today = LocalDate.now();
+        LocalDate birth = dob.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        
+        Period p = Period.between(birth, today);
+        
+        return p.getYears();
+    }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

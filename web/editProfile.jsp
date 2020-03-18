@@ -1,11 +1,12 @@
 <%-- 
-    Document   : confirmation
-    Created on : 12/03/2020, 11:59:39 PM
-    Author     : sinan.rassam
+    Document   : CreateDetails
+    Created on : 11/03/2020, 10:39:10 AM
+    Author     : rober
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -14,7 +15,7 @@
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
-        <title>Profile | Forum</title>
+        <title>Edit Profile | Forum</title>
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -67,56 +68,74 @@
         </c:if>
 
         <div class="container">
+            <h1>Please Enter User Information</h1>
 
-            <c:choose>
-                <c:when test="${not empty sessionScope.user}">
-                    <h1>Welcome <c:out value="${user.firstName}"/></h1>
-                    <table style="width:35%">
-                        <tr>
-                            <th>First Name:</th>
-                            <td><c:out value="${user.firstName}"/></td>
-                            <th>
-                        </tr>
-                        <tr>
-                            <th>Last Name:</th>
-                            <td><c:out value="${user.lastName}"/></td>
-                        </tr>
-                        <tr>
-                            <th>Email:</th>
-                            <td><c:out value="${user.email}"/></td>
-                        </tr>
-                        <tr>
-                            <th>Date of Birth:</th>
-                            <td><c:out value="${user.dob}"/></td>
-                        </tr>
-                        <tr>
-                            <th>Age:</th>
-                            <td><c:out value="${user.age}"/></td>
-                        </tr>
-                        <tr>
-                            <th>Gender:</th>
-                            <td><c:out value="${user.gender}"/></td>
-                        </tr>
-                        <tr>
-                            <th>Username:</th>
-                            <td><c:out value="${user.username}"/></td>
-                        </tr>
-                    </table>
-                    <br />
-                    <a href='<%= response.encodeURL(request.getContextPath() + "/editProfile.jsp")%>'>Edit Profile</a>
-                    <br />
-                    <a href='<%= response.encodeURL(request.getContextPath() + "/logout")%>'>Logout</a>
-                </c:when>
-                <c:otherwise>
-                    <%
-                        request.getSession().setAttribute("error", "You need to be logged in to see this page");
-                        RequestDispatcher dispatcher = getServletContext().
-                                getRequestDispatcher("/login.jsp");
-                        dispatcher.forward(request, response);
-                    %>
-                </c:otherwise>
-            </c:choose>
+            <form class="form-signin" action="register" method="post">                
+                <div class="form-group">
+                    <label class="form-check-label">First Name</label>
+                    <input type="text" class="form-control" value="<c:out value="${user.firstName}"/>" name="firstName" required>
+                </div>
 
+                <div class="form-group">
+                    <label class="form-check-label">Last Name</label>
+                    <input type="text" class="form-control" value="<c:out value="${user.firstName}"/>" name="lastName" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-check-label">Date Of Birth</label>
+                    <input type="date" class="form-control" value="<c:out value="${user.dob}"/>" name="dob" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-check-label">Email Address</label>
+                    <input type="email" class="form-control" value="<c:out value="${user.email}"/>" name="email" required readonly>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-check-label">Gender</label>
+                    <br />
+                    <div class="input-group">
+                        <div class="form-check form-check-inline">
+                            <c:set var="gender1" value="male"/>
+                            <c:set var="gender" value="${user.gender}"/>
+                            <input class="form-check-input" type="radio" id="gender-1" name="gender" 
+                                   <c:if test="${fn:containsIgnoreCase(user.gender, 'male')}">checked</c:if>
+                                       value="Male" required>
+                                   <label class="form-check-label" for="gender-1">Male</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                            <c:set var="gender2" value="Female"/>
+                            <input class="form-check-input" type="radio" id="gender-2" name="gender"
+                                   <c:if test="${fn:containsIgnoreCase(user.gender, 'female')}">checked</c:if>
+                                       value="female" required>
+                                   <label class="form-check-label" for="gender-2">Female</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-check-label">Username</label>
+                        <input type="text" class="form-control" value="<c:out value="${user.username}"/>" name="username" required readonly>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-check-label">Password</label>
+                    <input type="password" class="form-control" name="password" required>
+                </div>
+
+                <button class="btn btn-primary btn-block" type="submit">Register</button>
+            </form>
+            <br/>
+
+            <div class="text-center">
+                <a href='<%= response.encodeURL(request.getContextPath() + "/login.jsp")%>'>
+                    Already have an account yet?
+                </a>
+                <br />
+                <a href='<%= response.encodeURL(request.getContextPath())%>'>
+                    Return to main page
+                </a>
+            </div>
         </div>
 
         <!-- Optional JavaScript -->
@@ -124,5 +143,6 @@
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
     </body>
 </html>

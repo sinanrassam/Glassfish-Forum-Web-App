@@ -6,13 +6,17 @@
 package Forum;
 
 import User.User;
+import User.UserEntityServerlet;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.RequestDispatcher;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import javax.annotation.Resource;
 import javax.persistence.Query;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,18 +24,26 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.transaction.HeuristicMixedException;
+import javax.transaction.HeuristicRollbackException;
+import javax.transaction.NotSupportedException;
+import javax.transaction.RollbackException;
+import javax.transaction.SystemException;
+import javax.transaction.UserTransaction;
 
 /**
  *
  * @author sinan.rassam
  */
-@WebServlet(name = "ForumEntityServerlet", urlPatterns = {"/getForums"})
+@WebServlet(name = "ForumEntityServerlet", urlPatterns = {"/getForums", "/createForum"})
 public class ForumEntityServerlet extends HttpServlet {
 
     private Logger logger;
     @PersistenceContext
     private EntityManager entityManager;
-
+    @Resource
+    private UserTransaction userTransaction;
+    
     public ForumEntityServerlet() {
         logger = Logger.getLogger(getClass().getName());
     }
@@ -79,11 +91,48 @@ public class ForumEntityServerlet extends HttpServlet {
                     RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/forums.jsp");
                     dispatcher.forward(request, response);
                 }
+            } else if (servletPath.equals("/createForum")) {
+                if(user.getAdminLevel() == 0) {
+                    String jpqlCommand = "SELECT f FROM Forum f";
+                    Query query = entityManager.createQuery(jpqlCommand);
+                    
+                    int forumID = query.getResultList().size()+1;
+                    String forumTitle = request.getParameter("title");
+                    String forumDescription = request.getParameter("description");
+                    
+                    Object[] data = {forumTitle, forumDescription, forumID};
+                    boolean validated = Utils.Utils.isValid(data);
+                    
+                    if(validated) {
+                        if(entityManager != null) {
+                            Forum forum = new Forum();
+                            
+                            forum.setId(forumID);
+                            forum.setTitle(forumTitle);
+                            forum.setDescription(forumDescription);
+                            forum.setCreationDate(new Date());
+                            
+                            try {
+                                userTransaction.begin();
+                                entityManager.persist(forum);
+                                userTransaction.commit();
+                                request.getSession().setAttribute("message", "Forum Created Successfully!");
+                            } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
+                                request.getSession().setAttribute("error", "Forum Could not be created!");
+                                Logger.getLogger(UserEntityServerlet.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/getForums");
+                            dispatcher.forward(request, response);
+                        }
+                    }
+                } else if(user.getAdminLevel() == 1) {
+                    request.getSession().setAttribute("error", "You need admin privileges to create a new forum!");
+                    RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/forums.jsp");
+                    dispatcher.forward(request, response);
+                }
             }
         }
-
     }
-
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -122,5 +171,4 @@ public class ForumEntityServerlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
 }

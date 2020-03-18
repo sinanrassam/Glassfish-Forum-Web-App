@@ -76,18 +76,22 @@
 
             <form class="form-signin" action="register" method="post">
                 <div class="form-group">
-                    <input value="Hi" type="text" class="form-control" placeholder="First Name" name="firstName" required autofocus>
+                    <label class="form-check-label">First Name</label>
+                    <input type="text" class="form-control" placeholder="First Name" name="firstName" required autofocus>
                 </div>
 
                 <div class="form-group">
-                    <input value="Hi" type="text" class="form-control" placeholder="Last Name" name="lastName" required>
+                    <label class="form-check-label">Last Name</label>
+                    <input type="text" class="form-control" placeholder="Last Name" name="lastName" required>
                 </div>
 
                 <div class="form-group">
+                    <label class="form-check-label">Date Of Birth</label>
                     <input type="date" class="form-control" placeholder="Date of Birth" name="dob" required>
                 </div>
 
                 <div class="form-group">
+                    <label class="form-check-label">Email Address</label>
                     <input type="email" class="form-control" placeholder="Email Address" name="email" required>
                 </div>
 
@@ -107,11 +111,13 @@
                 </div>
 
                 <div class="form-group">
+                    <label class="form-check-label">Username</label>
                     <input type="text" class="form-control" placeholder="Username" name="username" required>
                 </div>
 
                 <div class="form-group">
-                    <input value="test123" type="password" class="form-control" placeholder="Password" name="password" required>
+                    <label class="form-check-label">Password</label>
+                    <input type="password" class="form-control" placeholder="Password" name="password" required>
                 </div>
 
                 <button class="btn btn-primary btn-block" type="submit">Register</button>
