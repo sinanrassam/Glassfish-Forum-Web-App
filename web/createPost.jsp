@@ -106,7 +106,8 @@
                         <c:out value="${post.description}" />
                         <br />
                         <br />
-                        Created On: <c:out value="${post.creationDate}" />
+                        Created by <c:out value="${post.username}" />
+                        - On: <c:out value="${post.creationDate}" />
                     </li>
                 </c:forEach>
             </ul>
