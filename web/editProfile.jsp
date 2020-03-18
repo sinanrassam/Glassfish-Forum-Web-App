@@ -78,7 +78,7 @@
 
                 <div class="form-group">
                     <label class="form-check-label">Last Name</label>
-                    <input type="text" class="form-control" value="<c:out value="${user.firstName}"/>" name="lastName" required>
+                    <input type="text" class="form-control" value="<c:out value="${user.lastName}"/>" name="lastName" required>
                 </div>
 
                 <div class="form-group">
