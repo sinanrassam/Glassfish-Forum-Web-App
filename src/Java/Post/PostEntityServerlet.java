@@ -90,6 +90,7 @@ public class PostEntityServerlet extends HttpServlet {
                         post.setDescription(description);
                         post.setCreationDate(new Date());
                         post.setUsername(((User) session.getAttribute("user")).getUsername());
+                        post.setCreationDate(new Date());
 
                         try {
                             userTransaction.begin();

@@ -8,6 +8,9 @@ package User;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -85,25 +88,31 @@ public class UserEntityServerlet extends HttpServlet {
                 if (servletPath.equals("/register")) {
                     logger.info(dob.toString());
 
-                    UserPK pk = new UserPK(email, username);
-                    User validateUser = entityManager.find(User.class, pk);
+                String jpqlCommand = "SELECT u FROM User u WHERE u.username = :username";
+                Query query = entityManager.createQuery(jpqlCommand);
+                query.setParameter("username", username);
 
-                    if (validateUser == null) {
-                        logger.info("User not found");
-                        logger.info("Creating new user: " + username);
+                String jpqlCommand2 = "SELECT u FROM User u WHERE u.email = :email";
+                Query query2 = entityManager.createQuery(jpqlCommand2);
+                query2.setParameter("email", email);
+
+                if (query.getResultList().isEmpty() && query2.getResultList().isEmpty()) {
+                    logger.info("User not found");
+                    logger.info("Creating new user: " + username);
 
                         user = new User();
 
                         logger.info(gender);
 
-                        user.setFirstName(firstName);
-                        user.setLastName(lastName);
-                        user.setEmail(email);
-                        user.setDob(dob);
-                        user.setAge(20);
-                        user.setGender(gender);
-                        user.setUsername(username);
-                        user.setPassword(password);
+                    user.setFirstName(firstName);
+                    user.setLastName(lastName);
+                    user.setEmail(email);
+                    user.setDob(dob);
+                    user.setAge(calculateAge(dob));
+                    user.setGender(gender);
+                    user.setUsername(username);
+                    user.setPassword(password);
+                    user.setAdminLevel(1);
 
                         try {
                             userTransaction.begin();
@@ -199,6 +208,14 @@ public class UserEntityServerlet extends HttpServlet {
         }
     }
 
+    public int calculateAge(Date dob) {
+        LocalDate today = LocalDate.now();
+        LocalDate birth = dob.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+        Period p = Period.between(birth, today);
+
+        return p.getYears();
+    }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
