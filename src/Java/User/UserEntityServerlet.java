@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.Month;
 import java.time.Period;
 import java.time.ZoneId;
 import java.util.Date;
@@ -88,10 +87,15 @@ public class UserEntityServerlet extends HttpServlet {
 
                 logger.info(dob.toString());
 
-                UserPK pk = new UserPK(email, username);
-                User validateUser = entityManager.find(User.class, pk);
+                String jpqlCommand = "SELECT u FROM User u WHERE u.username = :username";
+                Query query = entityManager.createQuery(jpqlCommand);
+                query.setParameter("username", username);
 
-                if (validateUser == null) {
+                String jpqlCommand2 = "SELECT u FROM User u WHERE u.email = :email";
+                Query query2 = entityManager.createQuery(jpqlCommand2);
+                query2.setParameter("email", email);
+                
+                if (query.getResultList().isEmpty() && query2.getResultList().isEmpty()) {
                     logger.info("User not found");
                     logger.info("Creating new user: " + username);
 

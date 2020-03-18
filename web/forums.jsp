@@ -74,7 +74,7 @@
             <h1>Forums</h1>
             
             <h2>Create a New Forum</h2>
-
+            
             <form method="post" action="/forum/createForum?id=${param.id}">
                 <div class="form-group">
                     <input type="text" class="form-control" placeholder="Title" name="title">
