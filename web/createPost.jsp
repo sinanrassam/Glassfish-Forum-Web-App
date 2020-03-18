@@ -64,22 +64,23 @@
                 </div>
             </div>
         </nav>
+
+        <c:if test="${not empty sessionScope.error}">
+            <div class="alert alert-danger" role="alert">
+                <strong>Error:</strong> <%= request.getSession().getAttribute("error")%>
+            </div>
+            <% request.getSession().removeAttribute("error");%>
+        </c:if>
+
+        <c:if test="${not empty sessionScope.message}">
+            <div class="alert alert-info" role="alert">
+                <strong>Message</strong> <%= request.getSession().getAttribute("message")%>
+            </div>
+            <% request.getSession().removeAttribute("message");%>
+        </c:if>
+
         <div class="container">
             <h1>Posts for Forum</h1>
-
-            <c:if test="${not empty sessionScope.error}">
-                <div class="alert alert-danger" role="alert">
-                    <strong>Error:</strong> <%= request.getSession().getAttribute("error")%>
-                </div>
-                <% request.getSession().removeAttribute("error");%>
-            </c:if>
-
-            <c:if test="${not empty sessionScope.message}">
-                <div class="alert alert-info" role="alert">
-                    <strong>Message</strong> <%= request.getSession().getAttribute("message")%>
-                </div>
-                <% request.getSession().removeAttribute("message");%>
-            </c:if>
 
             <h2>Create a New Post</h2>
 
@@ -104,7 +105,7 @@
                 <c:forEach var="post" items="${requestScope.posts}">
                     <li class="list-group-item">
                         <h4><c:out value="${post.title}" /></h4>
-                            <c:out value="${post.description}" />
+                        <c:out value="${post.description}" />
                         <br />
                         <br />
                         Created On: <c:out value="${post.creationDate}" />
