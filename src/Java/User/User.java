@@ -76,7 +76,7 @@ public class User implements Serializable {
     }
 
     public String getDob() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat(Utils.Utils.DATE_FORMAT);
         return sdf.format(dob);
     }
 
