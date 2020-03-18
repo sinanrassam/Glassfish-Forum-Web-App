@@ -100,14 +100,14 @@ public class PostEntityServerlet extends HttpServlet {
                             request.getSession().setAttribute("error", "Post Could not be created!");
                             Logger.getLogger(UserEntityServerlet.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/createPost.jsp");
+                        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/getPosts");
                         dispatcher.forward(request, response);
                     }
                 } else {
                     logger.info("Not Valdiated");
                     request.getSession().setAttribute("error", "Validation Failed!");
                     RequestDispatcher dispatcher = getServletContext().
-                            getRequestDispatcher("/createPost.jsp");
+                            getRequestDispatcher("/getPosts");
                     dispatcher.forward(request, response);
                 }
             } else if (servletPath.equals("/getPosts")) {
@@ -126,7 +126,7 @@ public class PostEntityServerlet extends HttpServlet {
 
                     List<Post> posts = new ArrayList<>();
 
-                    if (query.getResultList().size() > 1) {
+                    if (query.getResultList().size() > 0) {
                         logger.info("Posts found:");
                         Post newPost;
 
@@ -134,7 +134,6 @@ public class PostEntityServerlet extends HttpServlet {
                             newPost = (Post) query.getResultList().get(i);
                             posts.add(newPost);
                         }
-
                     } else {
                         logger.info("No posts");
                     }

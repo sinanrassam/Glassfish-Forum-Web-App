@@ -17,9 +17,7 @@ public class Utils {
             if (objs[i] != null) {
                 if (objs[i] instanceof String) {
                     boolean isEmpty = ((String) objs[i]).isEmpty();
-                    if (!isEmpty) {
-                        return true;
-                    }
+                    return !isEmpty;
                 }
             } else {
                 return false;

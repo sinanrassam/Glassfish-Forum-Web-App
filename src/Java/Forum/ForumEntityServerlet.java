@@ -43,7 +43,7 @@ public class ForumEntityServerlet extends HttpServlet {
     private EntityManager entityManager;
     @Resource
     private UserTransaction userTransaction;
-    
+
     public ForumEntityServerlet() {
         logger = Logger.getLogger(getClass().getName());
     }
@@ -92,26 +92,26 @@ public class ForumEntityServerlet extends HttpServlet {
                     dispatcher.forward(request, response);
                 }
             } else if (servletPath.equals("/createForum")) {
-                if(user.getAdminLevel() == 0) {
+                if (user.getAdminLevel() == 0) {
                     String jpqlCommand = "SELECT f FROM Forum f";
                     Query query = entityManager.createQuery(jpqlCommand);
-                    
-                    int forumID = query.getResultList().size()+1;
+
+                    int forumID = query.getResultList().size() + 1;
                     String forumTitle = request.getParameter("title");
                     String forumDescription = request.getParameter("description");
-                    
+
                     Object[] data = {forumTitle, forumDescription, forumID};
                     boolean validated = Utils.Utils.isValid(data);
-                    
-                    if(validated) {
-                        if(entityManager != null) {
+
+                    if (validated) {
+                        if (entityManager != null) {
                             Forum forum = new Forum();
-                            
+
                             forum.setId(forumID);
                             forum.setTitle(forumTitle);
                             forum.setDescription(forumDescription);
                             forum.setCreationDate(new Date());
-                            
+
                             try {
                                 userTransaction.begin();
                                 entityManager.persist(forum);
@@ -124,16 +124,21 @@ public class ForumEntityServerlet extends HttpServlet {
                             RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/getForums");
                             dispatcher.forward(request, response);
                         }
+                    } else {
+                        request.getSession().setAttribute("error", "Validation Failed!");
+                        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/getForums");
+                        dispatcher.forward(request, response);
                     }
-                } else if(user.getAdminLevel() == 1) {
+                } else if (user.getAdminLevel() == 1) {
                     request.getSession().setAttribute("error", "You need admin privileges to create a new forum!");
-                    RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/forums.jsp");
+                    RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/getForums");
                     dispatcher.forward(request, response);
                 }
             }
         }
     }
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+
     /**
      * Handles the HTTP <code>GET</code> method.
      *

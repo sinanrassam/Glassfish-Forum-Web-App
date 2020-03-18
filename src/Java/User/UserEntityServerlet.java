@@ -36,7 +36,7 @@ import javax.transaction.UserTransaction;
  *
  * @author sinan.rassam
  */
-@WebServlet(name = "UserEntityServerlet", urlPatterns = {"/login", "/logout", "/register", "/editProfile"})
+@WebServlet(name = "UserEntityServerlet", urlPatterns = {"/login", "/logout", "/register", "/updateDetails"})
 public class UserEntityServerlet extends HttpServlet {
 
     private Logger logger;
@@ -65,7 +65,7 @@ public class UserEntityServerlet extends HttpServlet {
         HttpSession session = request.getSession(true);
         User user = (User) session.getAttribute("user");
 
-        if (servletPath.equals("/register")) {
+        if (servletPath.equals("/register") || servletPath.equals("/updateDetails")) {
             logger.info("Registeration");
 
             //Obtain data given from the server
@@ -85,49 +85,68 @@ public class UserEntityServerlet extends HttpServlet {
             if (validated) {
                 Date dob = new SimpleDateFormat("yyyy-MM-dd").parse(dateOfBirth);
 
-                logger.info(dob.toString());
+                if (servletPath.equals("/register")) {
+                    String jpqlCommand = "SELECT u FROM User u WHERE u.username = :username";
+                    Query query = entityManager.createQuery(jpqlCommand);
+                    query.setParameter("username", username);
 
-                String jpqlCommand = "SELECT u FROM User u WHERE u.username = :username";
-                Query query = entityManager.createQuery(jpqlCommand);
-                query.setParameter("username", username);
+                    String jpqlCommand2 = "SELECT u FROM User u WHERE u.email = :email";
+                    Query query2 = entityManager.createQuery(jpqlCommand2);
+                    query2.setParameter("email", email);
 
-                String jpqlCommand2 = "SELECT u FROM User u WHERE u.email = :email";
-                Query query2 = entityManager.createQuery(jpqlCommand2);
-                query2.setParameter("email", email);
-                
-                if (query.getResultList().isEmpty() && query2.getResultList().isEmpty()) {
-                    logger.info("User not found");
-                    logger.info("Creating new user: " + username);
+                    if (query.getResultList().isEmpty() && query2.getResultList().isEmpty()) {
+                        logger.info("User not found");
+                        logger.info("Creating new user: " + username);
 
-                    user = new User();
+                        user = new User();
 
-                    logger.info(gender);
+                        logger.info(gender);
 
+                        user.setFirstName(firstName);
+                        user.setLastName(lastName);
+                        user.setEmail(email);
+                        user.setDob(dob);
+                        user.setAge(calculateAge(dob));
+                        user.setGender(gender);
+                        user.setUsername(username);
+                        user.setPassword(password);
+                        user.setAdminLevel(1);
+
+                        try {
+                            userTransaction.begin();
+                            entityManager.persist(user);
+                            userTransaction.commit();
+                        } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
+                            Logger.getLogger(UserEntityServerlet.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+
+                        request.getSession().setAttribute("message", "User Account Creation Was Sucessfull!");
+                        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/login.jsp");
+                        dispatcher.forward(request, response);
+                    } else {
+                        request.getSession().setAttribute("error", "User with that email/username already exist");
+                        RequestDispatcher dispatcher = getServletContext().
+                                getRequestDispatcher("/register.jsp");
+                        dispatcher.forward(request, response);
+                    }
+                } else {
                     user.setFirstName(firstName);
                     user.setLastName(lastName);
-                    user.setEmail(email);
                     user.setDob(dob);
                     user.setAge(calculateAge(dob));
                     user.setGender(gender);
-                    user.setUsername(username);
-                    user.setPassword(password);
-                    user.setAdminLevel(1);
 
                     try {
                         userTransaction.begin();
-                        entityManager.persist(user);
+                        entityManager.merge(user);
                         userTransaction.commit();
+                        request.getSession().setAttribute("message", "User Account Details Successfully Saved!");
                     } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
+                        request.getSession().setAttribute("message", "User Account Details Failed Saved!");
                         Logger.getLogger(UserEntityServerlet.class.getName()).log(Level.SEVERE, null, ex);
                     }
 
-                    request.getSession().setAttribute("message", "User Account Creation Was Sucessfull!");
-                    RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/login.jsp");
-                    dispatcher.forward(request, response);
-                } else {
-                    request.getSession().setAttribute("error", "User with that email/username already exist");
-                    RequestDispatcher dispatcher = getServletContext().
-                            getRequestDispatcher("/register.jsp");
+                    RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/profile.jsp");
                     dispatcher.forward(request, response);
                 }
             } else {
@@ -178,14 +197,6 @@ public class UserEntityServerlet extends HttpServlet {
                     dispatcher.forward(request, response);
                 }
             }
-        } else if (servletPath.equals("/editProfile")) {
-            String userId = request.getParameter("userId");
-            if (userId == null) {
-                request.setAttribute("user", user);
-            }
-            RequestDispatcher dispatcher = getServletContext().
-                    getRequestDispatcher("/editProfile.jsp");
-            dispatcher.forward(request, response);
         } else if (servletPath.equals("/logout")) {
             logger.info("Logout");
             session.invalidate();
@@ -199,11 +210,12 @@ public class UserEntityServerlet extends HttpServlet {
     public int calculateAge(Date dob) {
         LocalDate today = LocalDate.now();
         LocalDate birth = dob.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        
+
         Period p = Period.between(birth, today);
-        
+
         return p.getYears();
     }
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
