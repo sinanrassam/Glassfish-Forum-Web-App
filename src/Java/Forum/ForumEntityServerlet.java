@@ -131,7 +131,7 @@ public class ForumEntityServerlet extends HttpServlet {
                     }
                 } else if (user.getAdminLevel() == 1) {
                     request.getSession().setAttribute("error", "You need admin privileges to create a new forum!");
-                    RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/forums.jsp");
+                    RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/getForums");
                     dispatcher.forward(request, response);
                 }
             }
