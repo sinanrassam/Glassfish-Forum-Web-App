@@ -121,7 +121,7 @@ public class ForumEntityServerlet extends HttpServlet {
                                 request.getSession().setAttribute("error", "Forum Could not be created!");
                                 Logger.getLogger(UserEntityServerlet.class.getName()).log(Level.SEVERE, null, ex);
                             }
-                            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/forums.jsp");
+                            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/getForums");
                             dispatcher.forward(request, response);
                         }
                     }
